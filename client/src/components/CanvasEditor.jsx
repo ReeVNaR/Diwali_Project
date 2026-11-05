@@ -19,9 +19,10 @@ export default function CanvasEditor() {
   // Function to calculate ideal zoom that fits the canvas 100% inside available studio space
   const calculateFitZoom = useCallback(() => {
     if (!containerRef.current) return 0.5;
-    const padding = 60;
-    const contW = Math.max(200, containerRef.current.clientWidth - padding);
-    const contH = Math.max(200, containerRef.current.clientHeight - padding);
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const padding = isMobile ? 16 : 60;
+    const contW = Math.max(160, containerRef.current.clientWidth - padding);
+    const contH = Math.max(160, containerRef.current.clientHeight - (isMobile ? 32 : padding));
 
     const scaleX = contW / canvasWidth;
     const scaleY = contH / canvasHeight;
@@ -109,7 +110,7 @@ export default function CanvasEditor() {
       </div>
 
       {/* Floating Bottom Zoom Controls Bar (Liquid Glass Pill) */}
-      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 px-4 py-2 rounded-liquid liquid-glass shadow-glass flex items-center gap-3 z-30">
+      <div className="absolute bottom-20 lg:bottom-5 left-1/2 -translate-x-1/2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-liquid liquid-glass shadow-glass flex items-center gap-2 sm:gap-3 z-30 scale-90 sm:scale-100">
         <button
           onClick={() => setZoom(Math.max(0.15, parseFloat((zoom - 0.08).toFixed(2))))}
           className="p-1 rounded-full text-festive-textSecondary hover:text-[#0F172A] hover:bg-black/5 transition-colors"

@@ -263,50 +263,53 @@ export default function PreviewModal({ template, isOpen, onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="relative w-full max-w-4xl max-h-[92vh] rounded-liquid border border-white/15 bg-[#080A12] shadow-2xl flex flex-col overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
+      <div className="relative w-full max-w-4xl max-h-[94vh] rounded-liquid border border-white/15 bg-[#080A12] shadow-2xl flex flex-col overflow-hidden">
         
-        {/* Modal Top Bar */}
-        <div className="p-4 px-6 border-b border-white/10 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <span className="text-sm font-semibold text-white">{template.name}</span>
-            <span className="text-xs px-2.5 py-0.5 rounded-full bg-festive-gold/20 text-festive-gold border border-festive-gold/30">
+        {/* Modal Top Bar (Mobile-Responsive) */}
+        <div className="p-3 sm:p-4 sm:px-6 border-b border-white/10 flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+            <span className="text-xs sm:text-sm font-semibold text-white truncate max-w-[150px] sm:max-w-none">
+              {template.name}
+            </span>
+            <span className="text-[10px] sm:text-xs px-2 py-0.5 rounded-full bg-festive-gold/20 text-festive-gold border border-festive-gold/30 shrink-0">
               {template.category}
             </span>
           </div>
 
-          {/* Social Platform Toggle Tabs */}
-          <div className="hidden sm:flex items-center gap-1 p-1 rounded-liquid-sm bg-white/[0.06] border border-white/10">
+          {/* Social Platform Toggle Tabs (Always visible & touch scrollable) */}
+          <div className="order-3 sm:order-2 w-full sm:w-auto flex items-center gap-1 p-1 rounded-liquid-sm bg-white/[0.06] border border-white/10 overflow-x-auto scrollbar-none">
             {[
-              { id: 'instagram', label: 'Instagram Post', icon: Camera },
-              { id: 'story', label: 'Story Mockup', icon: Smartphone },
-              { id: 'whatsapp', label: 'WhatsApp', icon: MessageCircle }
+              { id: 'instagram', label: 'Post', fullLabel: 'Instagram Post', icon: Camera },
+              { id: 'story', label: 'Story', fullLabel: 'Story Mockup', icon: Smartphone },
+              { id: 'whatsapp', label: 'WhatsApp', fullLabel: 'WhatsApp Chat', icon: MessageCircle }
             ].map((tab) => {
               const Icon = tab.icon;
               return (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-liquid-sm text-xs font-medium transition-colors ${
+                  className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-liquid-sm text-[11px] sm:text-xs font-medium transition-colors shrink-0 ${
                     activeTab === tab.id
                       ? 'bg-festive-gold text-[#080A12] font-semibold'
                       : 'text-festive-textSecondary hover:text-white'
                   }`}
                 >
                   <Icon className="w-3.5 h-3.5" />
-                  {tab.label}
+                  <span className="sm:hidden">{tab.label}</span>
+                  <span className="hidden sm:inline">{tab.fullLabel}</span>
                 </button>
               );
             })}
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="order-2 sm:order-3 flex items-center gap-1.5 sm:gap-2 ml-auto sm:ml-0">
             <button
               onClick={handleOpenStudio}
-              className="flex items-center gap-1.5 py-1.5 px-3.5 rounded-liquid-sm text-xs font-bold text-[#080A12] bg-gradient-to-r from-festive-gold to-festive-orange hover:scale-105 transition-all"
+              className="flex items-center gap-1 sm:gap-1.5 py-1.5 px-3 sm:px-3.5 rounded-liquid-sm text-xs font-bold text-[#080A12] bg-gradient-to-r from-festive-gold to-festive-orange hover:scale-105 transition-all shadow-sm"
             >
               <Palette className="w-3.5 h-3.5" />
-              <span>Use This Template</span>
+              <span>Use Template</span>
             </button>
             <button
               onClick={onClose}
@@ -318,7 +321,7 @@ export default function PreviewModal({ template, isOpen, onClose }) {
         </div>
 
         {/* Mockup Preview Body */}
-        <div className="flex-1 overflow-y-auto p-6 flex items-center justify-center bg-[#05060A]">
+        <div className="flex-1 overflow-y-auto p-3 sm:p-6 flex items-center justify-center bg-[#05060A]">
           
           {/* Instagram Post Mockup */}
           {activeTab === 'instagram' && (
@@ -363,11 +366,11 @@ export default function PreviewModal({ template, isOpen, onClose }) {
             </div>
           )}
 
-          {/* Smartphone Story Mockup */}
+          {/* Smartphone Story Mockup (Responsive) */}
           {activeTab === 'story' && (
-            <div className="w-[300px] h-[550px] rounded-[36px] border-[6px] border-[#2A2E3D] bg-black p-3 relative flex flex-col justify-between shadow-2xl overflow-hidden">
+            <div className="w-[260px] sm:w-[300px] h-[460px] sm:h-[550px] rounded-[32px] sm:rounded-[36px] border-[5px] sm:border-[6px] border-[#2A2E3D] bg-black p-2.5 sm:p-3 relative flex flex-col justify-between shadow-2xl overflow-hidden">
               {/* Top phone camera pill */}
-              <div className="absolute top-2 left-1/2 -translate-x-1/2 w-24 h-4 bg-[#2A2E3D] rounded-full z-20" />
+              <div className="absolute top-2 left-1/2 -translate-x-1/2 w-20 sm:w-24 h-3.5 sm:h-4 bg-[#2A2E3D] rounded-full z-20" />
 
               {/* Story Progress Bar */}
               <div className="relative z-10 pt-3 flex items-center gap-1">
@@ -385,7 +388,7 @@ export default function PreviewModal({ template, isOpen, onClose }) {
               </div>
 
               {/* Story Content Frame (Scaled perfectly to 1080x1920) */}
-              <div className="my-auto w-full aspect-[9/16] max-h-[420px] rounded-xl overflow-hidden border border-white/10 shadow-lg">
+              <div className="my-auto w-full aspect-[9/16] max-h-[350px] sm:max-h-[420px] rounded-xl overflow-hidden border border-white/10 shadow-lg">
                 {renderCreativeSvg(1080, 1920)}
               </div>
 

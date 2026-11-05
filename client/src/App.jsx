@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar.jsx';
+import MobileBottomNav from './components/MobileBottomNav.jsx';
 import LandingPage from './pages/LandingPage.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import TemplateGallery from './pages/TemplateGallery.jsx';
@@ -17,7 +18,7 @@ function Layout() {
       {/* Floating Navbar on all non-editor views */}
       {!isEditor && <Navbar />}
 
-      <main className="flex-1 flex flex-col">
+      <main className={`flex-1 flex flex-col ${!isEditor ? 'pb-20 md:pb-0' : ''}`}>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
@@ -27,6 +28,9 @@ function Layout() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
+
+      {/* Floating Mobile Bottom Navigation for non-editor views */}
+      <MobileBottomNav />
     </div>
   );
 }

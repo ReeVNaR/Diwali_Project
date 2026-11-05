@@ -21,8 +21,8 @@ export default function CategoryFilter({
 
   return (
     <div className="space-y-4">
-      {/* Category Pills (Liquid Glass Pills) */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+      {/* Category Pills (Liquid Glass Pills - Touch Scrollable) */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-1.5 scrollbar-none -mx-2 px-2 sm:mx-0 sm:px-0 touch-pan-x">
         {categories.map((cat) => {
           const isSelected = selectedCategory === cat;
           return (
@@ -30,7 +30,7 @@ export default function CategoryFilter({
               key={cat}
               onClick={() => onSelectCategory(cat)}
               className={`
-                whitespace-nowrap px-4 py-2 rounded-liquid text-xs font-bold transition-all duration-200 flex items-center gap-1.5 shadow-xs
+                whitespace-nowrap px-3.5 sm:px-4 py-2 rounded-liquid text-xs font-bold transition-all duration-200 flex items-center gap-1.5 shadow-xs shrink-0
                 ${isSelected
                   ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-gold-glow scale-105'
                   : 'bg-white/70 border border-white/90 text-[#475569] hover:text-[#0F172A] hover:bg-white hover:border-amber-500/30'
@@ -45,9 +45,9 @@ export default function CategoryFilter({
       </div>
 
       {/* Format & Sort Controls Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-black/5">
-        <div className="flex items-center gap-2 overflow-x-auto pb-1">
-          <span className="text-xs text-[#64748B] font-semibold flex items-center gap-1 mr-1">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-black/5">
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none w-full sm:w-auto touch-pan-x">
+          <span className="text-xs text-[#64748B] font-semibold flex items-center gap-1 mr-1 shrink-0">
             <Layers className="w-3.5 h-3.5 text-amber-600" />
             Format:
           </span>
@@ -58,7 +58,7 @@ export default function CategoryFilter({
                 key={fmt}
                 onClick={() => onSelectFormat(fmt)}
                 className={`
-                  text-xs px-3 py-1.5 rounded-liquid-sm font-semibold transition-all duration-200 shadow-xs
+                  text-xs px-2.5 sm:px-3 py-1.5 rounded-liquid-sm font-semibold transition-all duration-200 shadow-xs whitespace-nowrap shrink-0
                   ${isSelected
                     ? 'bg-amber-500/20 text-amber-900 border border-amber-500/40'
                     : 'text-[#64748B] hover:text-[#0F172A] bg-white/60 border border-white/80 hover:bg-white'
@@ -72,7 +72,7 @@ export default function CategoryFilter({
         </div>
 
         {/* Sort Select */}
-        <div className="flex items-center gap-2 ml-auto">
+        <div className="flex items-center justify-between sm:justify-end gap-2 sm:ml-auto w-full sm:w-auto pt-2 sm:pt-0 border-t sm:border-t-0 border-black/5">
           <span className="text-xs text-[#64748B] font-semibold">Sort by:</span>
           <select
             value={sortBy}

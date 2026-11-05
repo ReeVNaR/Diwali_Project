@@ -258,8 +258,8 @@ export default function LandingPage() {
                 ))}
               </div>
 
-              {/* Seamless Creative Canvas Viewport */}
-              <div className="p-4 bg-gradient-to-b from-[#0F172A] to-[#080D1A] flex items-center justify-center min-h-[360px] relative overflow-hidden">
+              {/* Seamless Creative Canvas Viewport (Mobile Responsive) */}
+              <div className="p-3 sm:p-4 bg-gradient-to-b from-[#0F172A] to-[#080D1A] flex items-center justify-center min-h-[320px] sm:min-h-[360px] relative overflow-hidden">
                 
                 {/* Ambient backlight */}
                 <div
@@ -278,8 +278,8 @@ export default function LandingPage() {
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ duration: 0.3 }}
                     className={`
-                      relative rounded-liquid-sm border-2 border-amber-500/40 p-5 shadow-2xl flex flex-col justify-between text-center select-none bg-gradient-to-b ${currentPreset.bgGrad}
-                      ${activeFormat === 'story' ? 'w-[220px] h-[340px]' : activeFormat === 'portrait' ? 'w-[270px] h-[340px]' : 'w-[290px] h-[290px]'}
+                      relative rounded-liquid-sm border-2 border-amber-500/40 p-3 sm:p-5 shadow-2xl flex flex-col justify-between text-center select-none bg-gradient-to-b ${currentPreset.bgGrad}
+                      ${activeFormat === 'story' ? 'w-[190px] sm:w-[220px] h-[300px] sm:h-[340px]' : activeFormat === 'portrait' ? 'w-[220px] sm:w-[270px] h-[300px] sm:h-[340px]' : 'w-[230px] sm:w-[290px] h-[230px] sm:h-[290px]'}
                     `}
                   >
                     {/* Inner gold border */}
