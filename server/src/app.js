@@ -18,10 +18,16 @@ app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
 
+const allowedOrigins = config.corsOrigin === '*'
+  ? '*'
+  : config.corsOrigin.includes(',')
+    ? config.corsOrigin.split(',').map(s => s.trim())
+    : config.corsOrigin;
+
 app.use(cors({
-  origin: '*',
+  origin: allowedOrigins,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
 }));
 
 // Rate limiting for general API requests
