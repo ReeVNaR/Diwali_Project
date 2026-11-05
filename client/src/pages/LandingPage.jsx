@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Sparkles,
   ArrowRight,
@@ -7,13 +8,16 @@ import {
   LayoutGrid,
   Palette,
   Download,
-  CheckCircle2,
   Store,
   Gem,
   UtensilsCrossed,
   Laptop,
   Building,
-  Cake
+  Cake,
+  Sliders,
+  Type,
+  Image as ImageIcon,
+  Check
 } from 'lucide-react';
 import GlassCard from '../components/GlassCard.jsx';
 import { useTemplates } from '../hooks/useTemplates.js';
@@ -25,6 +29,51 @@ export default function LandingPage() {
   const { templates, activePreviewTemplate, setActivePreview } = useTemplates();
   const featuredTemplates = templates.slice(0, 6);
 
+  // Interactive Live Hero Studio State
+  const [activeFormat, setActiveFormat] = useState('square'); // 'square' | 'portrait' | 'story'
+  const [activePreset, setActivePreset] = useState(0);
+
+  const heroPresets = [
+    {
+      brand: 'ROYAL JEWELLERS',
+      tag: 'SHUBH DEEPAWALI COLLECTION',
+      headline: 'DHANTERAS & DIWALI FEST',
+      sub: 'Flat 50% Off on Gold & Diamond Making Charges',
+      discount: 'UP TO 50% OFF',
+      offer: '✦ FREE GOLD COIN WITH PURCHASES OVER ₹50,000 ✦',
+      cta: 'EXPLORE JEWELLERY',
+      contact: '📞 +91 98765 43210  •  📍 MG Road, Bengaluru',
+      accentColor: '#F5B942',
+      bgGrad: 'from-[#170E03] via-[#0E0A08] to-[#050406]'
+    },
+    {
+      brand: 'VIVA LUXURY ETHNICS',
+      tag: 'FESTIVE DESIGNER WEAR',
+      headline: 'DIWALI DHAMAKA SAREE SALE',
+      sub: 'Exclusive Pure Silk Sarees, Lehengas & Kurtas',
+      discount: 'BUY 1 GET 1 FREE',
+      offer: '✦ HANDCRAFTED BANARASI & KANJIVARAM SILKS ✦',
+      cta: 'SHOP FESTIVE LOOKS',
+      contact: '📞 +91 91234 56789  •  🌐 www.vivaluxury.in',
+      accentColor: '#FB923C',
+      bgGrad: 'from-[#1A0B10] via-[#0F080C] to-[#060408]'
+    },
+    {
+      brand: 'ANAND SWEETS & DRY FRUITS',
+      tag: 'PURE DESI GHEE DELICACIES',
+      headline: 'PREMIUM DIWALI GIFT HAMPERS',
+      sub: 'Kaju Katli, Motichoor Laddoos & Royal Dry Fruit Boxes',
+      discount: 'FLAT 25% OFF',
+      offer: '✦ CORPORATE & BULK GIFTING PRE-ORDERS OPEN ✦',
+      cta: 'ORDER FRESH SWEETS',
+      contact: '📞 +91 99887 66554  •  🛵 Express City Delivery',
+      accentColor: '#EAB308',
+      bgGrad: 'from-[#1A1303] via-[#0D0B05] to-[#040404]'
+    }
+  ];
+
+  const currentPreset = heroPresets[activePreset];
+
   const businessCategories = [
     { name: 'Jewellery', count: '11+ Designs', icon: Gem, color: '#D97706' },
     { name: 'Clothing & Fashion', count: '11+ Designs', icon: Store, color: '#EA580C' },
@@ -35,136 +84,277 @@ export default function LandingPage() {
   ];
 
   return (
-    <div className="space-y-24 pb-20">
+    <div className="space-y-24 pb-20 relative overflow-hidden">
       
-      {/* 1. HERO SECTION (LUMINOUS APPLE LIQUID GLASS) */}
-      <section className="relative pt-12 md:pt-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-hidden">
-        {/* Radiant Ambient Luminous Orbs */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full ambient-glow-gold pointer-events-none -z-10 blur-3xl opacity-75" />
-        <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] rounded-full ambient-glow-orange pointer-events-none -z-10 blur-2xl opacity-50" />
-        <div className="absolute top-1/2 right-1/4 w-[450px] h-[450px] rounded-full ambient-glow-rose pointer-events-none -z-10 blur-3xl opacity-40" />
+      {/* Dynamic Animated Ambient Background Orbs */}
+      <motion.div
+        animate={{
+          x: [-20, 20, -20],
+          y: [-15, 15, -15],
+          scale: [1, 1.05, 1]
+        }}
+        transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute top-12 left-1/2 -translate-x-1/2 w-[650px] h-[650px] rounded-full ambient-glow-gold pointer-events-none -z-10 blur-3xl opacity-70"
+      />
+      <motion.div
+        animate={{
+          x: [15, -15, 15],
+          y: [20, -20, 20],
+        }}
+        transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute top-1/4 right-10 w-[500px] h-[500px] rounded-full ambient-glow-orange pointer-events-none -z-10 blur-3xl opacity-50"
+      />
+      <motion.div
+        animate={{
+          x: [-15, 15, -15],
+          y: [10, -10, 10],
+        }}
+        transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute top-1/2 left-10 w-[450px] h-[450px] rounded-full ambient-glow-rose pointer-events-none -z-10 blur-3xl opacity-40"
+      />
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      {/* 1. SEAMLESS HERO SECTION (LUMINOUS APPLE LIQUID GLASS) */}
+      <section className="relative pt-8 md:pt-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           
-          {/* Left Column: Headline & CTAs */}
-          <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-800 text-xs font-bold tracking-wide shadow-xs">
+          {/* Left Column: Clean, Spacious Headline & CTAs */}
+          <motion.div
+            initial={{ opacity: 0, y: 25 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-6 space-y-6 text-center lg:text-left"
+          >
+            {/* Minimalist Top Frosted Glass Pill */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 border border-amber-500/30 text-amber-800 text-xs font-bold tracking-wide shadow-xs backdrop-blur-md">
               <Flame className="w-3.5 h-3.5 text-amber-600 animate-pulse" />
-              <span>Apple Liquid Glass UI • 100+ Diwali Templates</span>
+              <span>Apple Liquid Glass UI • 100+ Diwali Ad Templates</span>
             </div>
 
+            {/* Main Headline with generous line-height */}
             <h1 className="font-serif font-black text-4xl sm:text-5xl lg:text-6xl text-[#0F172A] tracking-tight leading-[1.12]">
               Make Every Celebration a{' '}
-              <span className="festive-gradient-text drop-shadow-sm">Brand Moment.</span>
+              <span className="festive-gradient-text drop-shadow-xs">Brand Moment.</span>
             </h1>
 
-            <p className="text-base sm:text-lg text-[#475569] max-w-2xl font-normal leading-relaxed">
-              Create stunning Diwali advertisements for your business in minutes. Customize, personalize, and download professional creatives effortlessly.
+            {/* Refined Subheading */}
+            <p className="text-base sm:text-lg text-[#475569] max-w-xl font-normal leading-relaxed mx-auto lg:mx-0">
+              Create stunning Diwali advertisements for your business in minutes. Customize typography, upload your brand logo, and download ultra-HD creatives for Instagram and WhatsApp effortlessly.
             </p>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5 pt-1">
               <Link
                 to="/editor"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-liquid text-base font-bold text-white bg-gradient-to-r from-amber-500 via-amber-600 to-orange-500 shadow-gold-glow hover:shadow-gold-glow-lg hover:scale-105 active:scale-95 transition-all duration-300"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-liquid text-sm font-bold text-white bg-gradient-to-r from-amber-500 via-amber-600 to-orange-500 shadow-gold-glow hover:shadow-gold-glow-lg hover:scale-105 active:scale-95 transition-all duration-300"
               >
-                <Sparkles className="w-5 h-5 text-white" />
-                <span>Start Creating</span>
-                <ArrowRight className="w-4 h-4 ml-1" />
+                <Sparkles className="w-4 h-4 text-white" />
+                <span>Start Creating Free</span>
+                <ArrowRight className="w-4 h-4 ml-0.5" />
               </Link>
 
               <Link
                 to="/templates"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 rounded-liquid text-base font-bold text-[#0F172A] bg-white/80 border border-white/90 hover:bg-white hover:border-amber-500/40 shadow-glass transition-all duration-200 backdrop-blur-md"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-liquid text-sm font-bold text-[#0F172A] bg-white/80 border border-white/95 hover:bg-white hover:border-amber-500/40 shadow-glass transition-all duration-200 backdrop-blur-md"
               >
                 <LayoutGrid className="w-4 h-4 text-amber-600" />
-                <span>Explore Templates</span>
+                <span>Explore 100+ Templates</span>
               </Link>
             </div>
 
-            {/* Trust Badges */}
-            <div className="pt-6 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs text-[#475569] font-medium border-t border-black/5">
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                <span>100+ Handcrafted Diwali Templates</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                <span>Ultra HD 2K Export for Print & Social</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                <span>No Graphic Design Skills Required</span>
-              </div>
+            {/* Seamless Trust Highlights */}
+            <div className="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-5 text-xs text-[#64748B] font-medium border-t border-black/5">
+              <span className="flex items-center gap-1.5">
+                <Check className="w-4 h-4 text-emerald-600" />
+                100+ Commercial Designs
+              </span>
+              <span className="flex items-center gap-1.5">
+                <Check className="w-4 h-4 text-emerald-600" />
+                2K Ultra-HD Export
+              </span>
+              <span className="flex items-center gap-1.5">
+                <Check className="w-4 h-4 text-emerald-600" />
+                Zero Design Skills Needed
+              </span>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Right Column: Floating Liquid Glass Creative Showcase */}
-          <div className="lg:col-span-5 relative flex items-center justify-center">
-            
-            {/* Primary Hero Advertisement Card (Liquid Glass Pane) */}
-            <div className="relative w-full max-w-[380px] rounded-liquid-lg border border-white/95 bg-white/75 backdrop-blur-glass p-6 shadow-glass-elevated animate-float">
+          {/* Right Column: Seamless Floating Liquid Glass Studio Showcase */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-6 relative flex flex-col items-center justify-center"
+          >
+            {/* The Seamless Studio Device / Canvas Frame */}
+            <div className="w-full max-w-[480px] rounded-liquid-lg border border-white/95 bg-white/80 backdrop-blur-glass shadow-glass-elevated overflow-hidden transition-all duration-500">
               
-              {/* Glass Top Edge Reflection */}
-              <div className="absolute inset-x-6 top-0 h-[2px] bg-gradient-to-r from-transparent via-amber-400 to-transparent" />
-
-              <div className="flex items-center justify-between pb-4 border-b border-black/5">
-                <div className="flex items-center gap-2">
-                  <Flame className="w-5 h-5 text-amber-600" />
-                  <span className="text-xs font-mono font-bold tracking-widest text-amber-800 uppercase">
-                    ROYAL JEWELLERS
-                  </span>
+              {/* Studio Window Header Bar */}
+              <div className="px-4 py-3 bg-white/90 border-b border-black/5 flex items-center justify-between">
+                {/* macOS traffic light controls */}
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2.5 h-2.5 rounded-full bg-rose-400" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-amber-400" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
                 </div>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-800 border border-amber-500/30">
-                  DIWALI SPECIAL
+
+                {/* Interactive Format Switcher Segmented Pills */}
+                <div className="flex items-center gap-1 p-0.5 rounded-full bg-black/5 border border-black/5">
+                  <button
+                    onClick={() => setActiveFormat('square')}
+                    className={`px-2.5 py-1 rounded-full text-[10px] font-bold transition-all ${
+                      activeFormat === 'square'
+                        ? 'bg-white text-[#0F172A] shadow-xs'
+                        : 'text-[#64748B] hover:text-[#0F172A]'
+                    }`}
+                  >
+                    1:1 Square
+                  </button>
+                  <button
+                    onClick={() => setActiveFormat('portrait')}
+                    className={`px-2.5 py-1 rounded-full text-[10px] font-bold transition-all ${
+                      activeFormat === 'portrait'
+                        ? 'bg-white text-[#0F172A] shadow-xs'
+                        : 'text-[#64748B] hover:text-[#0F172A]'
+                    }`}
+                  >
+                    4:5 Portrait
+                  </button>
+                  <button
+                    onClick={() => setActiveFormat('story')}
+                    className={`px-2.5 py-1 rounded-full text-[10px] font-bold transition-all ${
+                      activeFormat === 'story'
+                        ? 'bg-white text-[#0F172A] shadow-xs'
+                        : 'text-[#64748B] hover:text-[#0F172A]'
+                    }`}
+                  >
+                    9:16 Story
+                  </button>
+                </div>
+
+                {/* Status indicator */}
+                <div className="flex items-center gap-1.5 text-[10px] font-bold text-emerald-700">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                  <span>Live Studio</span>
+                </div>
+              </div>
+
+              {/* Dynamic Preset Picker Pills */}
+              <div className="px-3.5 py-2 bg-white/50 border-b border-black/5 flex items-center gap-1.5 overflow-x-auto scrollbar-none">
+                <span className="text-[10px] font-bold text-[#64748B] uppercase tracking-wider pl-1">
+                  Preset:
                 </span>
+                {heroPresets.map((preset, idx) => (
+                  <button
+                    key={preset.brand}
+                    onClick={() => setActivePreset(idx)}
+                    className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold whitespace-nowrap transition-all ${
+                      activePreset === idx
+                        ? 'bg-amber-500 text-white shadow-xs'
+                        : 'bg-white/70 text-[#64748B] hover:text-[#0F172A] border border-black/5'
+                    }`}
+                  >
+                    {preset.brand.split(' ')[0]}
+                  </button>
+                ))}
               </div>
 
-              <div className="py-7 text-center space-y-3">
-                <div className="inline-block p-3 rounded-full bg-amber-500/15 border border-amber-500/30 shadow-xs">
-                  <Sparkles className="w-7 h-7 text-amber-600" />
-                </div>
-                <h3 className="font-serif font-black text-2xl text-[#0F172A] leading-tight">
-                  SHUBH DEEPAWALI MEGA FEST
-                </h3>
-                <p className="text-xs text-[#475569] font-medium">
-                  Flat 50% Off on Making Charges of Gold & Diamond Ornaments
-                </p>
-                <div className="pt-2">
-                  <span className="inline-block px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs font-black shadow-md">
-                    LIMITED FESTIVE SLOTS
+              {/* Seamless Creative Canvas Viewport */}
+              <div className="p-4 bg-gradient-to-b from-[#0F172A] to-[#080D1A] flex items-center justify-center min-h-[360px] relative overflow-hidden">
+                
+                {/* Ambient backlight */}
+                <div
+                  className="absolute inset-0 pointer-events-none opacity-30 blur-2xl"
+                  style={{
+                    background: `radial-gradient(circle at 50% 50%, ${currentPreset.accentColor} 0%, transparent 65%)`
+                  }}
+                />
+
+                {/* The Responsive Creative Canvas */}
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={`${activeFormat}-${activePreset}`}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.3 }}
+                    className={`
+                      relative rounded-liquid-sm border-2 border-amber-500/40 p-5 shadow-2xl flex flex-col justify-between text-center select-none bg-gradient-to-b ${currentPreset.bgGrad}
+                      ${activeFormat === 'story' ? 'w-[220px] h-[340px]' : activeFormat === 'portrait' ? 'w-[270px] h-[340px]' : 'w-[290px] h-[290px]'}
+                    `}
+                  >
+                    {/* Inner gold border */}
+                    <div className="absolute inset-1.5 border border-dashed border-amber-400/30 rounded-xs pointer-events-none" />
+
+                    {/* Top Ornament & Brand */}
+                    <div className="space-y-1 relative z-10">
+                      <p className="text-amber-400 text-sm">✨ 🪔 ✨</p>
+                      <p className="text-[10px] font-mono font-bold tracking-widest text-amber-300 uppercase">
+                        {currentPreset.brand}
+                      </p>
+                      <p className="text-[9px] font-bold text-amber-200/80 tracking-wider">
+                        {currentPreset.tag}
+                      </p>
+                    </div>
+
+                    {/* Center Headline & Discount Badge */}
+                    <div className="space-y-2 py-1 relative z-10">
+                      <h3 className="font-serif font-black text-white text-base sm:text-lg leading-tight drop-shadow-sm">
+                        {currentPreset.headline}
+                      </h3>
+                      <p className="text-[10px] text-zinc-300 leading-snug">
+                        {currentPreset.sub}
+                      </p>
+                      <div className="inline-block px-3 py-1 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[10px] font-black shadow-md tracking-wider">
+                        {currentPreset.discount}
+                      </div>
+                    </div>
+
+                    {/* Offer box & CTA */}
+                    <div className="space-y-1.5 relative z-10">
+                      <div className="py-1 px-2 rounded bg-white/5 border border-amber-500/30 text-[9px] font-mono text-amber-300">
+                        {currentPreset.offer}
+                      </div>
+                      <div className="py-1.5 rounded-liquid-sm bg-amber-500 text-black font-bold text-[10px] tracking-wider shadow">
+                        {currentPreset.cta}
+                      </div>
+                      <p className="text-[8px] text-zinc-400 font-medium">
+                        {currentPreset.contact}
+                      </p>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+
+              {/* Seamless Studio Quick Tools Dock */}
+              <div className="px-4 py-3 bg-white/80 border-t border-black/5 flex items-center justify-between text-xs">
+                <div className="flex items-center gap-3 text-[#475569] font-medium text-[11px]">
+                  <span className="flex items-center gap-1">
+                    <ImageIcon className="w-3.5 h-3.5 text-amber-600" /> Logo
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <Type className="w-3.5 h-3.5 text-amber-600" /> Fonts
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <Sliders className="w-3.5 h-3.5 text-amber-600" /> Colors
                   </span>
                 </div>
+
+                <Link
+                  to="/editor"
+                  className="inline-flex items-center gap-1 px-3 py-1 rounded-liquid-sm bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold text-[11px] shadow-xs hover:scale-105 transition-all"
+                >
+                  <Palette className="w-3 h-3" />
+                  <span>Open Studio</span>
+                </Link>
               </div>
 
-              <div className="p-3 rounded-liquid-sm bg-white/80 border border-white flex items-center justify-between text-xs shadow-xs">
-                <span className="text-[#64748B] font-medium">📞 +91 98765 43210</span>
-                <span className="text-amber-700 font-bold">SHOP NOW</span>
-              </div>
             </div>
-
-            {/* Overlapping Floating Glass Badge */}
-            <div className="absolute -bottom-6 -left-4 sm:-left-8 rounded-liquid-sm border border-white/90 bg-white/85 backdrop-blur-glass p-3.5 shadow-glass-hover flex items-center gap-3">
-              <div className="p-2 rounded-full bg-emerald-500/15 text-emerald-700">
-                <Download className="w-5 h-5" />
-              </div>
-              <div>
-                <p className="text-xs font-bold text-[#0F172A]">One-Click Export</p>
-                <p className="text-[11px] text-[#64748B]">1080×1080 PNG & JPEG Ready</p>
-              </div>
-            </div>
-
-            {/* Overlapping Floating Tag */}
-            <div className="absolute -top-4 -right-4 rounded-liquid-sm border border-amber-500/30 bg-white/90 backdrop-blur-glass p-3 shadow-glass flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-amber-600" />
-              <span className="text-xs font-bold text-[#0F172A]">100+ Diwali Themes</span>
-            </div>
-          </div>
+          </motion.div>
 
         </div>
       </section>
 
-      {/* 2. FEATURED TEMPLATES SECTION */}
+      {/* 2. FEATURED TEMPLATES SECTION (PERFECTLY SIZED CARDS, ZERO RANDOM SPACING) */}
       <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
@@ -176,7 +366,7 @@ export default function LandingPage() {
               Handpicked Diwali Templates
             </h2>
             <p className="text-sm text-[#64748B] mt-1">
-              Designed for high engagement on Instagram Feed, Stories, and WhatsApp broadcasts.
+              Optimized for high engagement on Instagram Feed, Stories, and WhatsApp status broadcasts.
             </p>
           </div>
 
@@ -189,7 +379,8 @@ export default function LandingPage() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
+        {/* Uniform Grid - Cards Have Equal Height With Zero Irregular Gaps */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {featuredTemplates.map((template) => (
             <TemplateCard
               key={template.id}
@@ -210,7 +401,7 @@ export default function LandingPage() {
             From Idea to Ad Creative in 3 Steps
           </h2>
           <p className="text-sm text-[#64748B]">
-            Launch your festive marketing campaign in less than three minutes.
+            Launch your high-impact festive marketing campaign in less than three minutes.
           </p>
         </div>
 
@@ -233,7 +424,7 @@ export default function LandingPage() {
             {
               step: '03',
               title: 'Download & Publish',
-              desc: 'Export crystal clear high-resolution PNG or JPEG creatives tailored for Instagram posts, stories, and WhatsApp status.',
+              desc: 'Export crystal clear ultra-high-resolution PNG or JPEG creatives tailored for Instagram posts, stories, and WhatsApp status.',
               icon: Download,
               color: '#059669'
             }

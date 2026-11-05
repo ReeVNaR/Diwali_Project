@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import {
   FolderHeart,
   Plus,
@@ -68,8 +69,18 @@ export default function MyDesigns() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 relative overflow-hidden">
       
+      {/* Ambient Animated Glow */}
+      <motion.div
+        animate={{
+          x: [-15, 15, -15],
+          y: [-15, 15, -15]
+        }}
+        transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute top-20 right-10 w-[500px] h-[500px] rounded-full ambient-glow-gold pointer-events-none -z-10 blur-3xl opacity-50"
+      />
+
       {/* Top Banner */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -100,27 +111,32 @@ export default function MyDesigns() {
           <div className="w-16 h-16 rounded-full bg-amber-500/15 border border-amber-500/30 mx-auto flex items-center justify-center text-amber-600 shadow-sm">
             <FolderHeart className="w-8 h-8" />
           </div>
-          <h3 className="font-serif font-black text-lg text-[#0F172A]">No saved projects yet</h3>
-          <p className="text-xs text-[#64748B] max-w-sm mx-auto">
-            Create your first Diwali advertisement creative from 100+ templates or build one from scratch in the studio.
+          <h3 className="font-serif text-xl font-bold text-[#0F172A]">No designs created yet</h3>
+          <p className="text-sm text-[#475569] max-w-md mx-auto">
+            Choose a professional Diwali template or create a custom campaign in our Canva-style editor.
           </p>
-          <div className="pt-2">
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+            <Link
+              to="/editor"
+              className="px-6 py-3 rounded-liquid text-xs font-bold text-white bg-gradient-to-r from-amber-500 to-orange-500 shadow-gold-glow hover:scale-105 transition-all"
+            >
+              Start From Blank Canvas
+            </Link>
             <Link
               to="/templates"
-              className="inline-flex items-center gap-2 text-xs font-bold text-white bg-gradient-to-r from-amber-500 to-orange-500 px-5 py-2.5 rounded-liquid shadow-gold-glow"
+              className="px-6 py-3 rounded-liquid text-xs font-bold text-[#0F172A] bg-white/80 border border-white/90 hover:bg-white shadow-xs transition-all"
             >
-              <span>Explore Templates</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              Explore 100+ Templates
             </Link>
           </div>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 items-start">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {projects.map((project) => (
             <GlassCard
               key={project.id}
               onClick={() => navigate(`/editor?projectId=${project.id}`)}
-              className="overflow-hidden flex flex-col justify-between group cursor-pointer"
+              className="overflow-hidden flex flex-col justify-between group cursor-pointer h-full"
             >
               {/* Preview container */}
               <div className="relative aspect-square w-full bg-[#080d1e] border-b border-black/5 flex items-center justify-center overflow-hidden rounded-t-liquid">
@@ -138,7 +154,7 @@ export default function MyDesigns() {
                 )}
 
                 {/* Format Tag */}
-                <span className="absolute top-2 left-2 text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-black/70 text-white/95 border border-white/20 backdrop-blur-sm">
+                <span className="absolute top-2.5 left-2.5 text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-black/75 text-white/95 border border-white/20 backdrop-blur-sm">
                   {project.format || '1080×1080'}
                 </span>
               </div>
@@ -182,7 +198,6 @@ export default function MyDesigns() {
           ))}
         </div>
       )}
-
     </div>
   );
 }

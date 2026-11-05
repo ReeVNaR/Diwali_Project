@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import {
   Sparkles,
   Plus,
@@ -53,8 +54,18 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10 relative overflow-hidden">
       
+      {/* Ambient Animated Bokeh */}
+      <motion.div
+        animate={{
+          x: [-15, 15, -15],
+          y: [-15, 15, -15]
+        }}
+        transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute top-12 left-1/3 w-[500px] h-[500px] rounded-full ambient-glow-gold pointer-events-none -z-10 blur-3xl opacity-50"
+      />
+
       {/* 1. WELCOME BANNER (LIQUID GLASS) */}
       <div className="relative rounded-liquid-lg border border-white/90 bg-white/75 backdrop-blur-glass shadow-glass-elevated p-6 sm:p-10 overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="space-y-2 max-w-xl">
@@ -161,7 +172,7 @@ export default function Dashboard() {
         )}
       </div>
 
-      {/* 3. POPULAR TEMPLATES */}
+      {/* 3. POPULAR TEMPLATES - Symmetrical Grid with Uniform Card Dimensions */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -176,7 +187,7 @@ export default function Dashboard() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-start">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {popularTemplates.map((template) => (
             <TemplateCard
               key={template.id}
@@ -195,7 +206,7 @@ export default function Dashboard() {
             <GlassCard
               key={cat}
               onClick={() => navigate(`/templates?category=${encodeURIComponent(cat)}`)}
-              className="p-4 text-center cursor-pointer group"
+              className="p-4 text-center cursor-pointer group hover:-translate-y-1 transition-all"
             >
               <p className="text-xs font-bold text-[#0F172A] group-hover:text-amber-700 transition-colors">
                 {cat}

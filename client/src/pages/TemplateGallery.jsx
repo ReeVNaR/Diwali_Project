@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { LayoutGrid, Flame } from 'lucide-react';
 import SearchBar from '../components/SearchBar.jsx';
 import CategoryFilter from '../components/CategoryFilter.jsx';
@@ -37,7 +38,18 @@ export default function TemplateGallery() {
   const visibleTemplates = templates.slice(0, displayCount);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 relative overflow-hidden">
+      
+      {/* Dynamic Animated Ambient Glow */}
+      <motion.div
+        animate={{
+          x: [-20, 20, -20],
+          y: [-15, 15, -15],
+          scale: [1, 1.05, 1]
+        }}
+        transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute top-20 right-10 w-[500px] h-[500px] rounded-full ambient-glow-gold pointer-events-none -z-10 blur-3xl opacity-60"
+      />
       
       {/* Header Banner */}
       <div className="space-y-3">
@@ -105,7 +117,13 @@ export default function TemplateGallery() {
             )}
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 items-start">
+          {/* Symmetrical Uniform Grid - No Items-Start, Symmetrical Fixed Heights */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4 }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+          >
             {visibleTemplates.map((template) => (
               <TemplateCard
                 key={template.id}
@@ -113,14 +131,14 @@ export default function TemplateGallery() {
                 onPreview={(tpl) => setActivePreview(tpl)}
               />
             ))}
-          </div>
+          </motion.div>
 
           {/* Load More Button */}
           {displayCount < templates.length && (
             <div className="text-center pt-4">
               <button
                 onClick={() => setDisplayCount((prev) => prev + 24)}
-                className="px-6 py-3 rounded-liquid text-xs font-bold text-[#0F172A] bg-white/80 border border-white/90 hover:bg-white hover:border-amber-500/50 transition-all shadow-glass"
+                className="px-7 py-3 rounded-liquid text-xs font-bold text-[#0F172A] bg-white/80 border border-white/90 hover:bg-white hover:border-amber-500/50 hover:scale-105 active:scale-95 transition-all shadow-glass"
               >
                 Load More Templates ({templates.length - displayCount} remaining)
               </button>
