@@ -34,7 +34,7 @@ const COLOR_THEMES = [
     primary: '#F5B942',
     secondary: '#FF7043',
     accent: '#FFF176',
-    border: 'rgba(245, 185, 66, 0.4)',
+    border: 'rgba(245, 185, 66, 0.45)',
     badgeBg: '#D97706',
     textColor: '#FFFFFF',
     tagColor: '#FDE68A'
@@ -46,7 +46,7 @@ const COLOR_THEMES = [
     primary: '#FFD700',
     secondary: '#E11D48',
     accent: '#FFA000',
-    border: 'rgba(255, 215, 0, 0.45)',
+    border: 'rgba(255, 215, 0, 0.5)',
     badgeBg: '#9F1239',
     textColor: '#FFFBF0',
     tagColor: '#FFE082'
@@ -58,7 +58,7 @@ const COLOR_THEMES = [
     primary: '#F59E0B',
     secondary: '#F97316',
     accent: '#FDE047',
-    border: 'rgba(255, 255, 255, 0.15)',
+    border: 'rgba(245, 158, 11, 0.35)',
     badgeBg: '#EA580C',
     textColor: '#FFFFFF',
     tagColor: '#FBBF24'
@@ -70,7 +70,7 @@ const COLOR_THEMES = [
     primary: '#E2C275',
     secondary: '#10B981',
     accent: '#FDF6B2',
-    border: 'rgba(226, 194, 117, 0.35)',
+    border: 'rgba(226, 194, 117, 0.4)',
     badgeBg: '#047857',
     textColor: '#FFFFFF',
     tagColor: '#A7F3D0'
@@ -82,7 +82,7 @@ const COLOR_THEMES = [
     primary: '#F472B6',
     secondary: '#EAB308',
     accent: '#FCE7F3',
-    border: 'rgba(244, 114, 182, 0.35)',
+    border: 'rgba(244, 114, 182, 0.4)',
     badgeBg: '#86198F',
     textColor: '#FFFFFF',
     tagColor: '#FBCFE8'
@@ -94,7 +94,7 @@ const COLOR_THEMES = [
     primary: '#FBBF24',
     secondary: '#EF4444',
     accent: '#F97316',
-    border: 'rgba(251, 191, 36, 0.45)',
+    border: 'rgba(251, 191, 36, 0.5)',
     badgeBg: '#DC2626',
     textColor: '#FFFBEB',
     tagColor: '#FEF08A'
@@ -104,9 +104,9 @@ const COLOR_THEMES = [
     bgStart: '#0F172A',
     bgEnd: '#020617',
     primary: '#38BDF8',
-    secondary: '#F59E0B',
+    secondary: '#F5B942',
     accent: '#BAE6FD',
-    border: 'rgba(255, 255, 255, 0.2)',
+    border: 'rgba(56, 189, 248, 0.35)',
     badgeBg: '#0284C7',
     textColor: '#F8FAFC',
     tagColor: '#E0F2FE'
@@ -238,14 +238,23 @@ const CATEGORY_TEMPLATES = {
   ]
 };
 
-// Generates Fabric.js objects for a given template configuration
+// Generates Fabric.js objects perfectly fitted to the specific format type
 function generateCanvasObjects(tpl, theme, format) {
   const w = format.width;
   const h = format.height;
-
   const objects = [];
 
-  // 1. Background gradient rect
+  // Determine format classification
+  const isSquare = h === 1080;
+  const isPortrait = h === 1350;
+  const isStory = h === 1920;
+
+  // Outer & inner frame boundary margins
+  const pad = 36;
+  const frameTop = isStory ? 140 : pad;
+  const frameHeight = isStory ? (h - 280) : (h - pad * 2);
+
+  // 1. Background rect
   objects.push({
     type: 'rect',
     id: 'bg-rect',
@@ -259,12 +268,12 @@ function generateCanvasObjects(tpl, theme, format) {
     strokeWidth: 0
   });
 
-  // 2. Subtle ambient glow circle (diya ambient lighting)
+  // 2. Ambient glow radial circle
   objects.push({
     type: 'circle',
     id: 'ambient-glow-1',
     left: w * 0.5,
-    top: h * 0.35,
+    top: isStory ? 600 : isPortrait ? 480 : 380,
     radius: w * 0.38,
     originX: 'center',
     originY: 'center',
@@ -273,15 +282,14 @@ function generateCanvasObjects(tpl, theme, format) {
     evented: false
   });
 
-  // 3. Ornate Double Golden Border
-  const pad = 40;
+  // 3. Ornate Double Golden Border fitted to format
   objects.push({
     type: 'rect',
     id: 'frame-outer',
     left: pad,
-    top: pad,
+    top: frameTop,
     width: w - (pad * 2),
-    height: h - (pad * 2),
+    height: frameHeight,
     fill: 'transparent',
     stroke: theme.border,
     strokeWidth: 2,
@@ -295,11 +303,11 @@ function generateCanvasObjects(tpl, theme, format) {
     type: 'rect',
     id: 'frame-inner',
     left: pad + 12,
-    top: pad + 12,
+    top: frameTop + 12,
     width: w - (pad * 2) - 24,
-    height: h - (pad * 2) - 24,
+    height: frameHeight - 24,
     fill: 'transparent',
-    stroke: 'rgba(245, 185, 66, 0.2)',
+    stroke: 'rgba(245, 185, 66, 0.25)',
     strokeWidth: 1,
     strokeDashArray: [8, 6],
     rx: 12,
@@ -308,68 +316,96 @@ function generateCanvasObjects(tpl, theme, format) {
     evented: false
   });
 
-  // 4. Decorative Mandala / Festive Top Ornament
-  objects.push({
-    type: 'circle',
-    id: 'mandala-core',
-    left: w * 0.5,
-    top: 90,
-    radius: 32,
-    originX: 'center',
-    originY: 'center',
-    fill: 'rgba(245, 185, 66, 0.15)',
-    stroke: theme.primary,
-    strokeWidth: 1.5,
-    selectable: true
-  });
+  // 4. Coordinates mapped specifically to the format type
+  let ornamentY, brandY, headlineY, headlineSize, subY, subSize, badgeY, boxY, boxH, ctaY, footerY;
 
+  if (isStory) {
+    // 1080 x 1920 (9:16)
+    ornamentY = 230;
+    brandY = 320;
+    headlineY = 470;
+    headlineSize = 52;
+    subY = 600;
+    subSize = 26;
+    badgeY = 730;
+    boxY = 1050;
+    boxH = 440;
+    ctaY = 1450;
+    footerY = 1620;
+  } else if (isPortrait) {
+    // 1080 x 1350 (4:5)
+    ornamentY = 110;
+    brandY = 175;
+    headlineY = 295;
+    headlineSize = 46;
+    subY = 405;
+    subSize = 23;
+    badgeY = 505;
+    boxY = 725;
+    boxH = 290;
+    ctaY = 1005;
+    footerY = 1175;
+  } else {
+    // 1080 x 1080 (1:1 Square)
+    ornamentY = 95;
+    brandY = 150;
+    headlineY = 250;
+    headlineSize = 42;
+    subY = 345;
+    subSize = 21;
+    badgeY = 430;
+    boxY = 605;
+    boxH = 210;
+    ctaY = 825;
+    footerY = 940;
+  }
+
+  // Top Diya / Festive Symbol
   objects.push({
     type: 'text',
     id: 'festive-icon',
     text: '✨  🪔  ✨',
     left: w * 0.5,
-    top: 90,
+    top: ornamentY,
     originX: 'center',
     originY: 'center',
-    fontSize: 28,
+    fontSize: 26,
     fill: theme.primary,
     selectable: true
   });
 
-  // 5. Brand Name / Header Tag
+  // Brand Name
   objects.push({
     type: 'text',
     id: 'brand-name',
     editableKey: 'brandName',
     text: 'YOUR BRAND NAME',
     left: w * 0.5,
-    top: 145,
+    top: brandY,
     originX: 'center',
     originY: 'center',
     fontFamily: 'Montserrat',
     fontSize: 20,
     fontWeight: '700',
-    charSpacing: 300,
+    charSpacing: 250,
     fill: theme.tagColor || '#FDE68A',
     selectable: true
   });
 
-  // 6. Main Headline (Title)
-  const isTall = h > 1400;
-  const headlineTop = isTall ? 320 : 250;
+  // Main Headline
   objects.push({
     type: 'textbox',
     id: 'headline',
     editableKey: 'headline',
     text: tpl.title.toUpperCase(),
     left: w * 0.5,
-    top: headlineTop,
+    top: headlineY,
     originX: 'center',
     originY: 'center',
-    width: w - 160,
+    width: w - 200,
     textAlign: 'center',
     fontFamily: 'Playfair Display',
-    fontSize: isTall ? 58 : 46,
+    fontSize: headlineSize,
     fontWeight: '800',
     lineHeight: 1.2,
     fill: theme.textColor,
@@ -378,50 +414,48 @@ function generateCanvasObjects(tpl, theme, format) {
       color: 'rgba(0, 0, 0, 0.7)',
       blur: 15,
       offsetX: 0,
-      offsetY: 4
+      offsetY: 3
     }
   });
 
-  // 7. Subheadline
-  const subTop = headlineTop + (isTall ? 140 : 110);
+  // Subheadline
   objects.push({
     type: 'textbox',
     id: 'subheadline',
     editableKey: 'subheadline',
     text: tpl.sub,
     left: w * 0.5,
-    top: subTop,
+    top: subY,
     originX: 'center',
     originY: 'center',
-    width: w - 220,
+    width: w - 240,
     textAlign: 'center',
     fontFamily: 'Outfit',
-    fontSize: 24,
+    fontSize: subSize,
     fontWeight: '400',
     fill: '#D1D5DB',
     selectable: true
   });
 
-  // 8. Discount / Offer Badge
-  const badgeTop = subTop + (isTall ? 140 : 105);
+  // Discount Badge
   objects.push({
     type: 'rect',
     id: 'discount-badge-bg',
     left: w * 0.5,
-    top: badgeTop,
+    top: badgeY,
     originX: 'center',
     originY: 'center',
     width: 320,
-    height: 64,
-    rx: 32,
-    ry: 32,
+    height: 58,
+    rx: 29,
+    ry: 29,
     fill: theme.badgeBg,
     stroke: theme.primary,
     strokeWidth: 2,
     selectable: true,
     shadow: {
-      color: 'rgba(245, 185, 66, 0.35)',
-      blur: 20,
+      color: 'rgba(245, 185, 66, 0.3)',
+      blur: 16,
       offsetX: 0,
       offsetY: 0
     }
@@ -433,32 +467,29 @@ function generateCanvasObjects(tpl, theme, format) {
     editableKey: 'discount',
     text: tpl.discount,
     left: w * 0.5,
-    top: badgeTop,
+    top: badgeY,
     originX: 'center',
     originY: 'center',
     fontFamily: 'Montserrat',
-    fontSize: 26,
+    fontSize: 24,
     fontWeight: '800',
-    charSpacing: 100,
+    charSpacing: 80,
     fill: '#FFFFFF',
     selectable: true
   });
 
-  // 9. Central Visual / Placeholder Frame (e.g. for user's product or celebratory Diya)
-  const productBoxTop = badgeTop + (isTall ? 280 : 210);
-  const boxHeight = isTall ? 440 : 230;
-
+  // Product / Visual Frame
   objects.push({
     type: 'rect',
     id: 'product-placeholder-border',
     left: w * 0.5,
-    top: productBoxTop,
+    top: boxY,
     originX: 'center',
     originY: 'center',
-    width: w - 280,
-    height: boxHeight,
-    rx: 20,
-    ry: 20,
+    width: w - 260,
+    height: boxH,
+    rx: 18,
+    ry: 18,
     fill: 'rgba(255, 255, 255, 0.04)',
     stroke: 'rgba(245, 185, 66, 0.4)',
     strokeWidth: 1.5,
@@ -471,11 +502,11 @@ function generateCanvasObjects(tpl, theme, format) {
     editableKey: 'price',
     text: tpl.price,
     left: w * 0.5,
-    top: productBoxTop - 15,
+    top: boxY - 15,
     originX: 'center',
     originY: 'center',
     fontFamily: 'Cinzel',
-    fontSize: 32,
+    fontSize: isStory ? 34 : 28,
     fontWeight: '700',
     fill: theme.primary,
     selectable: true
@@ -486,34 +517,33 @@ function generateCanvasObjects(tpl, theme, format) {
     id: 'product-hint',
     text: '✦  CLICK TO INSERT PRODUCT PHOTO OR LOGO  ✦',
     left: w * 0.5,
-    top: productBoxTop + 35,
+    top: boxY + 30,
     originX: 'center',
     originY: 'center',
     fontFamily: 'Outfit',
-    fontSize: 16,
-    charSpacing: 120,
+    fontSize: isStory ? 17 : 14,
+    charSpacing: 100,
     fill: 'rgba(255, 255, 255, 0.45)',
     selectable: true
   });
 
-  // 10. Call-to-action button
-  const ctaTop = isTall ? (h - 220) : (h - 150);
+  // Call-To-Action Button
   objects.push({
     type: 'rect',
     id: 'cta-bg',
     left: w * 0.5,
-    top: ctaTop,
+    top: ctaY,
     originX: 'center',
     originY: 'center',
-    width: 300,
-    height: 54,
-    rx: 27,
-    ry: 27,
+    width: 290,
+    height: 52,
+    rx: 26,
+    ry: 26,
     fill: theme.primary,
     selectable: true,
     shadow: {
-      color: 'rgba(245, 185, 66, 0.4)',
-      blur: 25,
+      color: 'rgba(245, 185, 66, 0.35)',
+      blur: 20,
       offsetX: 0,
       offsetY: 2
     }
@@ -525,26 +555,25 @@ function generateCanvasObjects(tpl, theme, format) {
     editableKey: 'cta',
     text: tpl.cta,
     left: w * 0.5,
-    top: ctaTop,
+    top: ctaY,
     originX: 'center',
     originY: 'center',
     fontFamily: 'Outfit',
-    fontSize: 19,
+    fontSize: 18,
     fontWeight: '700',
-    charSpacing: 150,
-    fill: '#0A0C14',
+    charSpacing: 140,
+    fill: '#080A12',
     selectable: true
   });
 
-  // 11. Footer / Contact bar
-  const footerTop = isTall ? (h - 90) : (h - 65);
+  // Footer Contact Bar
   objects.push({
     type: 'text',
     id: 'contact-info',
     editableKey: 'contact',
-    text: '📞 +91 98765 43210  •  🌐 www.yourbrand.com  •  📍 Main Market Road',
+    text: '📞 +91 98765 43210  •  🌐 www.yourbrand.com',
     left: w * 0.5,
-    top: footerTop,
+    top: footerY,
     originX: 'center',
     originY: 'center',
     fontFamily: 'Outfit',
@@ -557,7 +586,6 @@ function generateCanvasObjects(tpl, theme, format) {
   return objects;
 }
 
-// Generate the 100+ templates collection
 function generateAllTemplates() {
   const templates = [];
   let counter = 1;
@@ -566,7 +594,6 @@ function generateAllTemplates() {
     const tplList = CATEGORY_TEMPLATES[category];
     
     tplList.forEach((tpl, idx) => {
-      // Pick cycling format and theme to ensure high diversity
       const format = FORMATS[(counter + idx) % FORMATS.length];
       const theme = COLOR_THEMES[(counter * 3 + idx) % COLOR_THEMES.length];
       

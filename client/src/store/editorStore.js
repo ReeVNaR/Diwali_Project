@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { canvasUtils } from '../utils/canvasUtils.js';
 
 export const useEditorStore = create((set, get) => ({
   canvas: null,
@@ -42,12 +43,10 @@ export const useEditorStore = create((set, get) => ({
   addUploadedProduct: (prod) => set((state) => ({ uploadedProducts: [prod, ...state.uploadedProducts] })),
 
   setCanvasDimensions: (format, width, height) => {
-    const { canvas } = get();
+    const { canvas, canvasWidth: oldW, canvasHeight: oldH } = get();
     set({ canvasFormat: format, canvasWidth: width, canvasHeight: height, isDirty: true });
     if (canvas) {
-      canvas.setWidth(width);
-      canvas.setHeight(height);
-      canvas.renderAll();
+      canvasUtils.resizeAndRefit(canvas, oldW, oldH, width, height);
       get().pushHistory();
     }
   },

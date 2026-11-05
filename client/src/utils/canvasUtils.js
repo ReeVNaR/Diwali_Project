@@ -383,6 +383,65 @@ export const canvasUtils = {
   },
 
   /**
+   * Proportional auto-refit of all canvas objects when changing format dimensions
+   */
+  resizeAndRefit(canvas, oldWidth, oldHeight, newWidth, newHeight) {
+    if (!canvas || !oldWidth || !oldHeight || !newWidth || !newHeight) return;
+    if (oldWidth === newWidth && oldHeight === newHeight) return;
+
+    const scaleX = newWidth / oldWidth;
+    const scaleY = newHeight / oldHeight;
+
+    canvas.setWidth(newWidth);
+    canvas.setHeight(newHeight);
+
+    const objects = canvas.getObjects();
+    objects.forEach((obj) => {
+      if (obj.id === 'bg-rect') {
+        obj.set({
+          left: 0,
+          top: 0,
+          width: newWidth,
+          height: newHeight
+        });
+      } else if (obj.id === 'frame-outer') {
+        const pad = 36;
+        const frameTop = newHeight > 1500 ? 140 : pad;
+        const frameHeight = newHeight > 1500 ? (newHeight - 280) : (newHeight - pad * 2);
+        obj.set({
+          left: pad,
+          top: frameTop,
+          width: newWidth - pad * 2,
+          height: frameHeight
+        });
+      } else if (obj.id === 'frame-inner') {
+        const pad = 48;
+        const frameTop = newHeight > 1500 ? 152 : pad;
+        const frameHeight = newHeight > 1500 ? (newHeight - 304) : (newHeight - pad * 2);
+        obj.set({
+          left: pad,
+          top: frameTop,
+          width: newWidth - pad * 2,
+          height: frameHeight
+        });
+      } else {
+        // Proportionally scale position
+        const newLeft = obj.left * scaleX;
+        const newTop = obj.top * scaleY;
+        obj.set({
+          left: newLeft,
+          top: newTop
+        });
+
+        // Ensure object stays within boundaries
+        obj.setCoords();
+      }
+    });
+
+    canvas.renderAll();
+  },
+
+  /**
    * Export canvas to high-res data URL
    */
   exportToDataURL(canvas, format = 'png', multiplier = 1) {

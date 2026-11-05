@@ -8,12 +8,18 @@ export default function PreviewModal({ template, isOpen, onClose }) {
 
   if (!isOpen || !template) return null;
 
+  const w = template.width || 1080;
+  const h = template.height || 1080;
+  const isStory = h === 1920;
+  const isPortrait = h === 1350;
+
   const colors = template.colors || {
     primary: '#F5B942',
     bgStart: '#080d1e',
     text: '#FFFFFF',
-    border: 'rgba(245, 185, 66, 0.4)',
-    badgeBg: '#D97706'
+    border: 'rgba(245, 185, 66, 0.45)',
+    badgeBg: '#D97706',
+    tag: '#FDE68A'
   };
 
   const fields = template.editableFields || {};
@@ -23,8 +29,241 @@ export default function PreviewModal({ template, isOpen, onClose }) {
     navigate(`/editor?templateId=${template.id}`);
   };
 
+  // Reusable SVG renderer that guarantees 100% proper fitting without going outside bounds
+  const renderCreativeSvg = (targetW = w, targetH = h) => {
+    const pad = 36;
+    const isTargetStory = targetH === 1920;
+    const isTargetPortrait = targetH === 1350;
+    const frameTop = isTargetStory ? 140 : pad;
+    const frameHeight = isTargetStory ? (targetH - 280) : (targetH - pad * 2);
+
+    let ornamentY, brandY, headlineY, headlineSize, subY, subSize, badgeY, boxY, boxH, ctaY, footerY;
+
+    if (isTargetStory) {
+      ornamentY = 240;
+      brandY = 330;
+      headlineY = 480;
+      headlineSize = 52;
+      subY = 610;
+      subSize = 26;
+      badgeY = 740;
+      boxY = 1050;
+      boxH = 430;
+      ctaY = 1450;
+      footerY = 1620;
+    } else if (isTargetPortrait) {
+      ornamentY = 110;
+      brandY = 175;
+      headlineY = 300;
+      headlineSize = 46;
+      subY = 410;
+      subSize = 23;
+      badgeY = 510;
+      boxY = 730;
+      boxH = 280;
+      ctaY = 1010;
+      footerY = 1180;
+    } else {
+      // Square
+      ornamentY = 95;
+      brandY = 150;
+      headlineY = 250;
+      headlineSize = 42;
+      subY = 345;
+      subSize = 21;
+      badgeY = 430;
+      boxY = 605;
+      boxH = 210;
+      ctaY = 825;
+      footerY = 940;
+    }
+
+    return (
+      <svg
+        viewBox={`0 0 ${targetW} ${targetH}`}
+        className="w-full h-full block"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect width={targetW} height={targetH} fill={colors.bgStart} />
+
+        {/* Ambient Glow */}
+        <circle
+          cx={targetW * 0.5}
+          cy={isTargetStory ? 600 : isTargetPortrait ? 480 : 380}
+          r={targetW * 0.4}
+          fill={colors.primary}
+          opacity="0.12"
+        />
+
+        {/* Outer Frame */}
+        <rect
+          x={pad}
+          y={frameTop}
+          width={targetW - pad * 2}
+          height={frameHeight}
+          fill="none"
+          stroke={colors.border}
+          strokeWidth="3"
+          rx="18"
+        />
+        <rect
+          x={pad + 12}
+          y={frameTop + 12}
+          width={targetW - (pad * 2) - 24}
+          height={frameHeight - 24}
+          fill="none"
+          stroke={colors.primary}
+          strokeWidth="1.5"
+          strokeDasharray="8 6"
+          opacity="0.35"
+          rx="14"
+        />
+
+        {/* Top Ornament */}
+        <text x={targetW * 0.5} y={ornamentY} textAnchor="middle" fontSize="28" fill={colors.primary}>
+          ✨  🪔  ✨
+        </text>
+
+        {/* Brand Name */}
+        <text
+          x={targetW * 0.5}
+          y={brandY}
+          textAnchor="middle"
+          fontFamily="Montserrat, sans-serif"
+          fontSize="20"
+          fontWeight="700"
+          letterSpacing="5"
+          fill={colors.tag || '#FDE68A'}
+        >
+          {fields.brandName || 'YOUR BRAND NAME'}
+        </text>
+
+        {/* Headline */}
+        <text
+          x={targetW * 0.5}
+          y={headlineY}
+          textAnchor="middle"
+          fontFamily="Playfair Display, serif"
+          fontSize={headlineSize}
+          fontWeight="800"
+          fill={colors.text || '#FFFFFF'}
+        >
+          {(fields.headline || template.name).toUpperCase()}
+        </text>
+
+        {/* Subtitle */}
+        <text
+          x={targetW * 0.5}
+          y={subY}
+          textAnchor="middle"
+          fontFamily="Outfit, sans-serif"
+          fontSize={subSize}
+          fill="#D1D5DB"
+        >
+          {fields.subheadline || 'Festive Special Collection'}
+        </text>
+
+        {/* Discount Badge */}
+        {fields.discount && (
+          <g>
+            <rect
+              x={targetW * 0.5 - 165}
+              y={badgeY - 29}
+              width="330"
+              height="58"
+              rx="29"
+              fill={colors.badgeBg || '#D97706'}
+              stroke={colors.primary}
+              strokeWidth="2"
+            />
+            <text
+              x={targetW * 0.5}
+              y={badgeY + 8}
+              textAnchor="middle"
+              fontFamily="Montserrat, sans-serif"
+              fontSize="24"
+              fontWeight="800"
+              letterSpacing="1.5"
+              fill="#FFFFFF"
+            >
+              {fields.discount}
+            </text>
+          </g>
+        )}
+
+        {/* Center Box */}
+        <rect
+          x={130}
+          y={boxY}
+          width={targetW - 260}
+          height={boxH}
+          rx="18"
+          fill="rgba(255, 255, 255, 0.04)"
+          stroke="rgba(245, 185, 66, 0.4)"
+          strokeWidth="1.5"
+        />
+        <text
+          x={targetW * 0.5}
+          y={boxY + boxH * 0.46}
+          textAnchor="middle"
+          fontFamily="Cinzel, serif"
+          fontSize={isTargetStory ? 34 : 28}
+          fontWeight="700"
+          fill={colors.primary}
+        >
+          {fields.price || 'Special Diwali Offer'}
+        </text>
+        <text
+          x={targetW * 0.5}
+          y={boxY + boxH * 0.72}
+          textAnchor="middle"
+          fontFamily="Outfit, sans-serif"
+          fontSize={isTargetStory ? 17 : 14}
+          letterSpacing="2"
+          fill="rgba(255, 255, 255, 0.45)"
+        >
+          ✦ CLICK TO INSERT PRODUCT PHOTO ✦
+        </text>
+
+        {/* CTA Button */}
+        <rect
+          x={targetW * 0.5 - 145}
+          y={ctaY - 26}
+          width="290"
+          height="52"
+          rx="26"
+          fill={colors.primary}
+        />
+        <text
+          x={targetW * 0.5}
+          y={ctaY + 8}
+          textAnchor="middle"
+          fontFamily="Outfit, sans-serif"
+          fontSize="18"
+          fontWeight="700"
+          letterSpacing="2.5"
+          fill="#080A12"
+        >
+          {fields.cta || 'SHOP NOW'}
+        </text>
+
+        {/* Footer Contact */}
+        <text
+          x={targetW * 0.5}
+          y={footerY}
+          textAnchor="middle"
+          fontFamily="Outfit, sans-serif"
+          fontSize="17"
+          fill="#9CA3AF"
+        >
+          {fields.contact || '📞 +91 98765 43210  •  🌐 www.yourbrand.com'}
+        </text>
+      </svg>
+    );
+  };
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
       <div className="relative w-full max-w-4xl max-h-[92vh] rounded-liquid border border-white/15 bg-[#080A12] shadow-2xl flex flex-col overflow-hidden">
         
         {/* Modal Top Bar */}
@@ -80,6 +319,7 @@ export default function PreviewModal({ template, isOpen, onClose }) {
 
         {/* Mockup Preview Body */}
         <div className="flex-1 overflow-y-auto p-6 flex items-center justify-center bg-[#05060A]">
+          
           {/* Instagram Post Mockup */}
           {activeTab === 'instagram' && (
             <div className="w-full max-w-[420px] rounded-xl border border-white/10 bg-[#121624] overflow-hidden shadow-2xl">
@@ -99,46 +339,9 @@ export default function PreviewModal({ template, isOpen, onClose }) {
                 <span className="text-white/40 text-xs font-bold">•••</span>
               </div>
 
-              {/* Creative Artwork Container */}
-              <div
-                className="relative aspect-square w-full p-6 flex flex-col justify-between overflow-hidden"
-                style={{
-                  background: `radial-gradient(circle at 50% 30%, ${colors.primary}20 0%, ${colors.bgStart} 80%)`,
-                  backgroundColor: colors.bgStart
-                }}
-              >
-                <div className="absolute inset-4 rounded-xl border pointer-events-none" style={{ borderColor: colors.border }} />
-
-                <div className="relative z-10 text-center space-y-1">
-                  <p className="text-[10px] uppercase font-bold tracking-widest text-festive-gold">
-                    {fields.brandName || 'YOUR BRAND'}
-                  </p>
-                  <h3 className="font-serif font-black text-xl text-white">
-                    {fields.headline || template.name}
-                  </h3>
-                  <p className="text-xs text-white/70">
-                    {fields.subheadline}
-                  </p>
-                </div>
-
-                <div className="relative z-10 text-center my-auto py-4">
-                  {fields.discount && (
-                    <span
-                      className="inline-block text-xs font-black px-4 py-1.5 rounded-full text-white shadow-lg"
-                      style={{ backgroundColor: colors.badgeBg }}
-                    >
-                      {fields.discount}
-                    </span>
-                  )}
-                  <p className="text-sm font-bold text-festive-gold mt-2">
-                    {fields.price}
-                  </p>
-                </div>
-
-                <div className="relative z-10 flex items-center justify-between text-[10px] text-white/60 border-t border-white/10 pt-2">
-                  <span>{fields.contact || 'Main Market Road'}</span>
-                  <span className="font-bold text-festive-gold">{fields.cta || 'VISIT TODAY'}</span>
-                </div>
+              {/* Creative Artwork Container (Scaled perfectly) */}
+              <div className={`relative w-full ${isPortrait ? 'aspect-[4/5]' : 'aspect-square'} overflow-hidden`}>
+                {renderCreativeSvg(w, isPortrait ? 1350 : 1080)}
               </div>
 
               {/* Instagram Engagement Bar */}
@@ -181,32 +384,9 @@ export default function PreviewModal({ template, isOpen, onClose }) {
                 <span className="text-[10px] text-white/50">2h</span>
               </div>
 
-              {/* Story Content Frame */}
-              <div
-                className="my-auto p-4 text-center rounded-2xl flex flex-col justify-center items-center h-[380px]"
-                style={{
-                  background: `linear-gradient(180deg, ${colors.primary}25 0%, ${colors.bgStart} 100%)`,
-                  backgroundColor: colors.bgStart
-                }}
-              >
-                <span className="text-xs uppercase font-bold text-festive-gold tracking-widest">
-                  {fields.brandName || 'DIWALI SPECIAL'}
-                </span>
-                <h4 className="font-serif font-black text-lg text-white mt-2 leading-tight">
-                  {fields.headline}
-                </h4>
-                <div className="my-4">
-                  <span
-                    className="text-[11px] font-black px-3 py-1 rounded-full text-white"
-                    style={{ backgroundColor: colors.badgeBg }}
-                  >
-                    {fields.discount}
-                  </span>
-                </div>
-                <p className="text-xs font-bold text-festive-gold">{fields.price}</p>
-                <div className="mt-4 px-4 py-1.5 rounded-full bg-white/20 text-white text-[10px] font-bold">
-                  {fields.cta || 'SWIPE UP TO SHOP'}
-                </div>
+              {/* Story Content Frame (Scaled perfectly to 1080x1920) */}
+              <div className="my-auto w-full aspect-[9/16] max-h-[420px] rounded-xl overflow-hidden border border-white/10 shadow-lg">
+                {renderCreativeSvg(1080, 1920)}
               </div>
 
               {/* Story Reply Pill */}
@@ -232,22 +412,8 @@ export default function PreviewModal({ template, isOpen, onClose }) {
               </div>
 
               <div className="ml-auto max-w-[340px] rounded-xl bg-[#005C4B] p-2 text-white shadow-md space-y-2">
-                <div
-                  className="rounded-lg p-4 aspect-square flex flex-col justify-between text-center overflow-hidden"
-                  style={{ backgroundColor: colors.bgStart }}
-                >
-                  <p className="text-[10px] font-bold text-festive-gold uppercase tracking-wider">
-                    {fields.brandName}
-                  </p>
-                  <h4 className="font-serif font-bold text-sm text-white">
-                    {fields.headline}
-                  </h4>
-                  <div>
-                    <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-amber-600 text-white">
-                      {fields.discount}
-                    </span>
-                  </div>
-                  <p className="text-[10px] text-white/80">{fields.cta}</p>
+                <div className="rounded-lg aspect-square w-full overflow-hidden border border-white/10 shadow">
+                  {renderCreativeSvg(1080, 1080)}
                 </div>
                 <p className="text-xs text-white/90 px-1">
                   Dear Patron, wishing you a Shubh Deepawali! Click below to claim your festive voucher.
@@ -258,6 +424,7 @@ export default function PreviewModal({ template, isOpen, onClose }) {
               </div>
             </div>
           )}
+
         </div>
       </div>
     </div>

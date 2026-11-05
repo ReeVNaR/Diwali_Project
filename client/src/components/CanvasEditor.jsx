@@ -47,6 +47,15 @@ export default function CanvasEditor() {
     };
   }, []);
 
+  // Sync canvas dimensions with store
+  useEffect(() => {
+    if (canvas) {
+      canvas.setWidth(canvasWidth);
+      canvas.setHeight(canvasHeight);
+      canvas.renderAll();
+    }
+  }, [canvas, canvasWidth, canvasHeight]);
+
   // Handle Fit to Screen auto-zoom calculation
   const handleFitToScreen = () => {
     if (!containerRef.current) return;
