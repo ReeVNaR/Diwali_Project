@@ -13,14 +13,14 @@ export default function ImageEditor() {
   const isImage = selectedObject.type === 'image';
 
   return (
-    <div className="space-y-5 text-sm">
+    <div className="space-y-4 text-xs">
       {/* Element Header */}
-      <div className="flex items-center justify-between pb-2 border-b border-white/10">
+      <div className="flex items-center justify-between pb-2 border-b border-black/5">
         <div>
-          <span className="text-xs font-semibold uppercase tracking-wider text-festive-gold">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-amber-700">
             {isImage ? 'Image Asset' : isShape ? 'Festive Shape / Frame' : 'Object'}
           </span>
-          <p className="text-[11px] text-festive-textSecondary">
+          <p className="text-[10px] text-[#64748B] font-mono">
             {selectedObject.type} • {selectedObject.left}px, {selectedObject.top}px
           </p>
         </div>
@@ -32,14 +32,14 @@ export default function ImageEditor() {
               updateSelectedProps({ isLocked });
             }
           }}
-          className={`p-2 rounded-liquid-sm border transition-colors ${
+          className={`p-1.5 rounded-liquid-sm border transition-colors shadow-sm ${
             selectedObject.isLocked
-              ? 'bg-amber-500/20 border-amber-500/40 text-amber-400'
-              : 'bg-white/[0.05] border-white/10 text-white/70 hover:text-white'
+              ? 'bg-amber-500/20 border-amber-500/40 text-amber-800'
+              : 'bg-white/80 border-black/10 text-[#475569] hover:text-[#0F172A]'
           }`}
           title={selectedObject.isLocked ? 'Unlock Object' : 'Lock Object'}
         >
-          {selectedObject.isLocked ? <Lock className="w-4 h-4" /> : <Unlock className="w-4 h-4" />}
+          {selectedObject.isLocked ? <Lock className="w-3.5 h-3.5" /> : <Unlock className="w-3.5 h-3.5" />}
         </button>
       </div>
 
@@ -47,18 +47,18 @@ export default function ImageEditor() {
       {isShape && (
         <ColorPicker
           label="Fill Color"
-          value={typeof selectedObject.fill === 'string' ? selectedObject.fill : '#F5B942'}
+          value={typeof selectedObject.fill === 'string' ? selectedObject.fill : '#D97706'}
           onChange={(color) => updateSelectedProps({ fill: color })}
         />
       )}
 
       {/* Opacity Control */}
-      <div className="space-y-1.5">
-        <div className="flex justify-between text-xs">
-          <label className="font-semibold text-festive-textSecondary uppercase tracking-wider">
+      <div className="space-y-1">
+        <div className="flex justify-between text-[11px]">
+          <label className="font-bold text-[#64748B] uppercase tracking-wider">
             Opacity
           </label>
-          <span className="font-mono text-white/70">
+          <span className="font-mono text-[#0F172A] font-bold">
             {Math.round((selectedObject.opacity || 1) * 100)}%
           </span>
         </div>
@@ -69,21 +69,21 @@ export default function ImageEditor() {
           step="0.05"
           value={selectedObject.opacity !== undefined ? selectedObject.opacity : 1}
           onChange={(e) => updateSelectedProps({ opacity: parseFloat(e.target.value) })}
-          className="w-full accent-festive-gold cursor-pointer"
+          className="w-full accent-amber-600 cursor-pointer"
         />
       </div>
 
       {/* Rotation Control */}
-      <div className="space-y-1.5">
-        <div className="flex justify-between text-xs">
-          <label className="font-semibold text-festive-textSecondary uppercase tracking-wider flex items-center gap-1">
-            <RotateCw className="w-3.5 h-3.5" />
+      <div className="space-y-1">
+        <div className="flex justify-between text-[11px]">
+          <label className="font-bold text-[#64748B] uppercase tracking-wider flex items-center gap-1">
+            <RotateCw className="w-3 h-3 text-amber-600" />
             Rotation ({selectedObject.angle || 0}°)
           </label>
           {selectedObject.angle !== 0 && (
             <button
               onClick={() => updateSelectedProps({ angle: 0 })}
-              className="text-[10px] text-festive-gold hover:underline"
+              className="text-[10px] text-amber-700 font-bold hover:underline"
             >
               Reset 0°
             </button>
@@ -95,14 +95,14 @@ export default function ImageEditor() {
           max="360"
           value={selectedObject.angle || 0}
           onChange={(e) => updateSelectedProps({ angle: parseInt(e.target.value, 10) })}
-          className="w-full accent-festive-gold cursor-pointer"
+          className="w-full accent-amber-600 cursor-pointer"
         />
       </div>
 
       {/* Layer Order Controls */}
       <div className="space-y-1.5">
-        <label className="text-xs font-semibold text-festive-textSecondary uppercase tracking-wider flex items-center gap-1">
-          <Layers className="w-3.5 h-3.5 text-festive-gold" />
+        <label className="text-[11px] font-bold text-[#64748B] uppercase tracking-wider flex items-center gap-1">
+          <Layers className="w-3 h-3 text-amber-600" />
           Layer Ordering
         </label>
         <div className="grid grid-cols-2 gap-2">
@@ -113,7 +113,7 @@ export default function ImageEditor() {
                 pushHistory();
               }
             }}
-            className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-liquid-sm bg-white/[0.05] border border-white/10 hover:bg-white/10 text-white text-xs font-medium transition-colors"
+            className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-liquid-sm bg-white/80 border border-black/10 hover:bg-white text-[#0F172A] text-xs font-semibold shadow-sm transition-colors"
           >
             <ArrowUp className="w-3.5 h-3.5" />
             Bring Forward
@@ -126,7 +126,7 @@ export default function ImageEditor() {
                 pushHistory();
               }
             }}
-            className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-liquid-sm bg-white/[0.05] border border-white/10 hover:bg-white/10 text-white text-xs font-medium transition-colors"
+            className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-liquid-sm bg-white/80 border border-black/10 hover:bg-white text-[#0F172A] text-xs font-semibold shadow-sm transition-colors"
           >
             <ArrowDown className="w-3.5 h-3.5" />
             Send Backward
@@ -135,7 +135,7 @@ export default function ImageEditor() {
       </div>
 
       {/* Action Buttons: Duplicate & Delete */}
-      <div className="pt-2 border-t border-white/10 grid grid-cols-2 gap-2">
+      <div className="pt-2 border-t border-black/5 grid grid-cols-2 gap-2">
         <button
           onClick={() => {
             if (canvas) {
@@ -143,9 +143,9 @@ export default function ImageEditor() {
               pushHistory();
             }
           }}
-          className="flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-liquid-sm bg-white/[0.05] border border-white/10 hover:border-festive-gold/40 hover:bg-white/10 text-white text-xs font-medium transition-colors"
+          className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-liquid-sm bg-white/80 border border-black/10 hover:border-amber-500/50 hover:bg-white text-[#0F172A] text-xs font-bold shadow-sm transition-colors"
         >
-          <Copy className="w-3.5 h-3.5 text-festive-gold" />
+          <Copy className="w-3.5 h-3.5 text-amber-600" />
           Duplicate
         </button>
 
@@ -156,7 +156,7 @@ export default function ImageEditor() {
               pushHistory();
             }
           }}
-          className="flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-liquid-sm bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-400 text-xs font-medium transition-colors"
+          className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-liquid-sm bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-600 text-xs font-bold transition-colors"
         >
           <Trash2 className="w-3.5 h-3.5" />
           Delete

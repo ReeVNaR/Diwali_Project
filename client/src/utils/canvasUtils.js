@@ -442,13 +442,15 @@ export const canvasUtils = {
   },
 
   /**
-   * Export canvas to high-res data URL
+   * Export canvas to high-res data URL, adjusting for current canvas zoom
    */
-  exportToDataURL(canvas, format = 'png', multiplier = 1) {
+  exportToDataURL(canvas, format = 'png', userScale = 1) {
     if (!canvas) return null;
+    const currentZoom = canvas.getZoom() || 1;
+    const actualMultiplier = (1 / currentZoom) * userScale;
     return canvas.toDataURL({
       format: format === 'jpeg' ? 'jpeg' : 'png',
-      multiplier,
+      multiplier: actualMultiplier,
       quality: 0.95
     });
   }

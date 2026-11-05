@@ -7,15 +7,13 @@ import {
   LayoutGrid,
   Palette,
   Download,
-  UploadCloud,
   CheckCircle2,
   Store,
   Gem,
   UtensilsCrossed,
   Laptop,
   Building,
-  Cake,
-  HeartHandshake
+  Cake
 } from 'lucide-react';
 import GlassCard from '../components/GlassCard.jsx';
 import { useTemplates } from '../hooks/useTemplates.js';
@@ -28,38 +26,39 @@ export default function LandingPage() {
   const featuredTemplates = templates.slice(0, 6);
 
   const businessCategories = [
-    { name: 'Jewellery', count: '11+ Designs', icon: Gem, color: '#F5B942' },
-    { name: 'Clothing & Fashion', count: '11+ Designs', icon: Store, color: '#FF7043' },
+    { name: 'Jewellery', count: '11+ Designs', icon: Gem, color: '#D97706' },
+    { name: 'Clothing & Fashion', count: '11+ Designs', icon: Store, color: '#EA580C' },
     { name: 'Sweets & Bakery', count: '10+ Designs', icon: Cake, color: '#E11D48' },
-    { name: 'Electronics', count: '10+ Designs', icon: Laptop, color: '#38BDF8' },
-    { name: 'Restaurants & Food', count: '10+ Designs', icon: UtensilsCrossed, color: '#10B981' },
-    { name: 'Real Estate', count: '10+ Designs', icon: Building, color: '#F59E0B' },
+    { name: 'Electronics', count: '10+ Designs', icon: Laptop, color: '#0284C7' },
+    { name: 'Restaurants & Food', count: '10+ Designs', icon: UtensilsCrossed, color: '#059669' },
+    { name: 'Real Estate', count: '10+ Designs', icon: Building, color: '#D97706' },
   ];
 
   return (
     <div className="space-y-24 pb-20">
       
-      {/* 1. HERO SECTION */}
+      {/* 1. HERO SECTION (LUMINOUS APPLE LIQUID GLASS) */}
       <section className="relative pt-12 md:pt-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-hidden">
-        {/* Ambient Glow Orbs */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] rounded-full ambient-glow-gold pointer-events-none -z-10 blur-3xl opacity-60" />
-        <div className="absolute top-1/3 left-1/4 w-[400px] h-[400px] rounded-full ambient-glow-orange pointer-events-none -z-10 blur-2xl opacity-40" />
+        {/* Radiant Ambient Luminous Orbs */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full ambient-glow-gold pointer-events-none -z-10 blur-3xl opacity-75" />
+        <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] rounded-full ambient-glow-orange pointer-events-none -z-10 blur-2xl opacity-50" />
+        <div className="absolute top-1/2 right-1/4 w-[450px] h-[450px] rounded-full ambient-glow-rose pointer-events-none -z-10 blur-3xl opacity-40" />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
           {/* Left Column: Headline & CTAs */}
           <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-festive-gold/10 border border-festive-gold/30 text-festive-gold text-xs font-semibold tracking-wide">
-              <Flame className="w-3.5 h-3.5 text-festive-gold animate-pulse" />
-              <span>Diwali 2026 Marketing Suite • 100+ Pro Templates</span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-800 text-xs font-bold tracking-wide shadow-xs">
+              <Flame className="w-3.5 h-3.5 text-amber-600 animate-pulse" />
+              <span>Apple Liquid Glass UI • 100+ Diwali Templates</span>
             </div>
 
-            <h1 className="font-serif font-black text-4xl sm:text-5xl lg:text-6xl text-white tracking-tight leading-[1.12]">
+            <h1 className="font-serif font-black text-4xl sm:text-5xl lg:text-6xl text-[#0F172A] tracking-tight leading-[1.12]">
               Make Every Celebration a{' '}
               <span className="festive-gradient-text drop-shadow-sm">Brand Moment.</span>
             </h1>
 
-            <p className="text-base sm:text-lg text-festive-textSecondary max-w-2xl font-light leading-relaxed">
+            <p className="text-base sm:text-lg text-[#475569] max-w-2xl font-normal leading-relaxed">
               Create stunning Diwali advertisements for your business in minutes. Customize, personalize, and download professional creatives effortlessly.
             </p>
 
@@ -67,34 +66,34 @@ export default function LandingPage() {
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
               <Link
                 to="/editor"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-liquid text-base font-bold text-[#080A12] bg-gradient-to-r from-festive-gold via-[#FDE68A] to-festive-orange shadow-gold-glow-lg hover:scale-105 active:scale-95 transition-all duration-300"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-liquid text-base font-bold text-white bg-gradient-to-r from-amber-500 via-amber-600 to-orange-500 shadow-gold-glow hover:shadow-gold-glow-lg hover:scale-105 active:scale-95 transition-all duration-300"
               >
-                <Sparkles className="w-5 h-5 text-[#080A12]" />
+                <Sparkles className="w-5 h-5 text-white" />
                 <span>Start Creating</span>
                 <ArrowRight className="w-4 h-4 ml-1" />
               </Link>
 
               <Link
                 to="/templates"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-liquid text-base font-semibold text-white bg-white/[0.06] border border-white/15 hover:bg-white/10 hover:border-festive-gold/40 transition-all duration-200 backdrop-blur-md"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 rounded-liquid text-base font-bold text-[#0F172A] bg-white/80 border border-white/90 hover:bg-white hover:border-amber-500/40 shadow-glass transition-all duration-200 backdrop-blur-md"
               >
-                <LayoutGrid className="w-4 h-4 text-festive-gold" />
+                <LayoutGrid className="w-4 h-4 text-amber-600" />
                 <span>Explore Templates</span>
               </Link>
             </div>
 
             {/* Trust Badges */}
-            <div className="pt-6 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs text-festive-textSecondary border-t border-white/10">
+            <div className="pt-6 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs text-[#475569] font-medium border-t border-black/5">
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-festive-gold" />
+                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                 <span>100+ Handcrafted Diwali Templates</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-festive-gold" />
+                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                 <span>Ultra HD 2K Export for Print & Social</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-festive-gold" />
+                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                 <span>No Graphic Design Skills Required</span>
               </div>
             </div>
@@ -103,87 +102,87 @@ export default function LandingPage() {
           {/* Right Column: Floating Liquid Glass Creative Showcase */}
           <div className="lg:col-span-5 relative flex items-center justify-center">
             
-            {/* Primary Hero Advertisement Card */}
-            <div className="relative w-full max-w-[380px] rounded-liquid-lg border border-festive-gold/40 bg-gradient-to-br from-[#1A0B2E] via-[#0D1124] to-[#05060A] p-6 shadow-2xl backdrop-blur-2xl animate-float">
+            {/* Primary Hero Advertisement Card (Liquid Glass Pane) */}
+            <div className="relative w-full max-w-[380px] rounded-liquid-lg border border-white/95 bg-white/75 backdrop-blur-glass p-6 shadow-glass-elevated animate-float">
               
-              {/* Glass Specular Shine */}
-              <div className="absolute inset-x-6 top-0 h-[2px] bg-gradient-to-r from-transparent via-festive-gold to-transparent" />
+              {/* Glass Top Edge Reflection */}
+              <div className="absolute inset-x-6 top-0 h-[2px] bg-gradient-to-r from-transparent via-amber-400 to-transparent" />
 
-              <div className="flex items-center justify-between pb-4 border-b border-white/10">
+              <div className="flex items-center justify-between pb-4 border-b border-black/5">
                 <div className="flex items-center gap-2">
-                  <Flame className="w-5 h-5 text-festive-gold" />
-                  <span className="text-xs font-mono font-bold tracking-widest text-festive-gold uppercase">
+                  <Flame className="w-5 h-5 text-amber-600" />
+                  <span className="text-xs font-mono font-bold tracking-widest text-amber-800 uppercase">
                     ROYAL JEWELLERS
                   </span>
                 </div>
-                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-festive-gold/20 text-festive-gold border border-festive-gold/30">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-800 border border-amber-500/30">
                   DIWALI SPECIAL
                 </span>
               </div>
 
-              <div className="py-8 text-center space-y-3">
-                <div className="inline-block p-3 rounded-full bg-festive-gold/10 border border-festive-gold/30 shadow-gold-glow">
-                  <Sparkles className="w-8 h-8 text-festive-gold" />
+              <div className="py-7 text-center space-y-3">
+                <div className="inline-block p-3 rounded-full bg-amber-500/15 border border-amber-500/30 shadow-xs">
+                  <Sparkles className="w-7 h-7 text-amber-600" />
                 </div>
-                <h3 className="font-serif font-black text-2xl text-white">
+                <h3 className="font-serif font-black text-2xl text-[#0F172A] leading-tight">
                   SHUBH DEEPAWALI MEGA FEST
                 </h3>
-                <p className="text-xs text-white/70">
+                <p className="text-xs text-[#475569] font-medium">
                   Flat 50% Off on Making Charges of Gold & Diamond Ornaments
                 </p>
                 <div className="pt-2">
-                  <span className="inline-block px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-500 to-festive-orange text-white text-xs font-black shadow-lg">
+                  <span className="inline-block px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs font-black shadow-md">
                     LIMITED FESTIVE SLOTS
                   </span>
                 </div>
               </div>
 
-              <div className="p-3 rounded-liquid-sm bg-white/[0.05] border border-white/10 flex items-center justify-between text-xs">
-                <span className="text-festive-textSecondary">📞 +91 98765 43210</span>
-                <span className="text-festive-gold font-bold">SHOP NOW</span>
+              <div className="p-3 rounded-liquid-sm bg-white/80 border border-white flex items-center justify-between text-xs shadow-xs">
+                <span className="text-[#64748B] font-medium">📞 +91 98765 43210</span>
+                <span className="text-amber-700 font-bold">SHOP NOW</span>
               </div>
             </div>
 
             {/* Overlapping Floating Glass Badge */}
-            <div className="absolute -bottom-6 -left-4 sm:-left-8 rounded-liquid-sm border border-white/15 bg-[#111522]/90 backdrop-blur-xl p-3.5 shadow-glass flex items-center gap-3">
-              <div className="p-2 rounded-full bg-emerald-500/20 text-emerald-400">
+            <div className="absolute -bottom-6 -left-4 sm:-left-8 rounded-liquid-sm border border-white/90 bg-white/85 backdrop-blur-glass p-3.5 shadow-glass-hover flex items-center gap-3">
+              <div className="p-2 rounded-full bg-emerald-500/15 text-emerald-700">
                 <Download className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-xs font-bold text-white">One-Click Export</p>
-                <p className="text-[11px] text-festive-textSecondary">1080×1080 PNG & JPEG Ready</p>
+                <p className="text-xs font-bold text-[#0F172A]">One-Click Export</p>
+                <p className="text-[11px] text-[#64748B]">1080×1080 PNG & JPEG Ready</p>
               </div>
             </div>
 
             {/* Overlapping Floating Tag */}
-            <div className="absolute -top-4 -right-4 rounded-liquid-sm border border-festive-gold/30 bg-black/80 backdrop-blur-xl p-3 shadow-glass flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-festive-gold" />
-              <span className="text-xs font-semibold text-white">100+ Diwali Themes</span>
+            <div className="absolute -top-4 -right-4 rounded-liquid-sm border border-amber-500/30 bg-white/90 backdrop-blur-glass p-3 shadow-glass flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-amber-600" />
+              <span className="text-xs font-bold text-[#0F172A]">100+ Diwali Themes</span>
             </div>
           </div>
 
         </div>
       </section>
 
-      {/* 2. FEATURED TEMPLATES CAROUSEL/GRID */}
+      {/* 2. FEATURED TEMPLATES SECTION */}
       <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
-            <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-festive-gold mb-1">
-              <Sparkles className="w-3.5 h-3.5" />
+            <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-amber-700 mb-1">
+              <Sparkles className="w-3.5 h-3.5 text-amber-600" />
               Trending Festive Creatives
             </div>
-            <h2 className="font-serif font-bold text-2xl sm:text-3xl text-white">
+            <h2 className="font-serif font-black text-2xl sm:text-3xl text-[#0F172A]">
               Handpicked Diwali Templates
             </h2>
-            <p className="text-sm text-festive-textSecondary mt-1">
+            <p className="text-sm text-[#64748B] mt-1">
               Designed for high engagement on Instagram Feed, Stories, and WhatsApp broadcasts.
             </p>
           </div>
 
           <Link
             to="/templates"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-festive-gold hover:text-white transition-colors group"
+            className="inline-flex items-center gap-2 text-sm font-bold text-amber-700 hover:text-amber-900 transition-colors group"
           >
             <span>View All 100+ Templates</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -204,14 +203,14 @@ export default function LandingPage() {
       {/* 3. HOW IT WORKS */}
       <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="text-center max-w-2xl mx-auto space-y-2 mb-12">
-          <span className="text-xs font-semibold uppercase tracking-wider text-festive-gold">
+          <span className="text-xs font-bold uppercase tracking-wider text-amber-700">
             Effortless Workflow
           </span>
-          <h2 className="font-serif font-bold text-3xl text-white">
+          <h2 className="font-serif font-black text-3xl text-[#0F172A]">
             From Idea to Ad Creative in 3 Steps
           </h2>
-          <p className="text-sm text-festive-textSecondary">
-            Launch your festive advertising campaign in less than three minutes.
+          <p className="text-sm text-[#64748B]">
+            Launch your festive marketing campaign in less than three minutes.
           </p>
         </div>
 
@@ -222,21 +221,21 @@ export default function LandingPage() {
               title: 'Pick a Diwali Template',
               desc: 'Select from 100+ curated templates across 10 business categories like Jewellery, Fashion, Sweets, and Electronics.',
               icon: LayoutGrid,
-              color: '#F5B942'
+              color: '#D97706'
             },
             {
               step: '02',
               title: 'Personalize Brand & Offer',
               desc: 'Upload your shop logo, insert product photos, and customize headlines, discount percentages, and contact info in real time.',
               icon: Palette,
-              color: '#FF7043'
+              color: '#EA580C'
             },
             {
               step: '03',
               title: 'Download & Publish',
               desc: 'Export crystal clear high-resolution PNG or JPEG creatives tailored for Instagram posts, stories, and WhatsApp status.',
               icon: Download,
-              color: '#10B981'
+              color: '#059669'
             }
           ].map((item) => {
             const Icon = item.icon;
@@ -244,17 +243,17 @@ export default function LandingPage() {
               <GlassCard key={item.step} className="p-8 relative space-y-4">
                 <div className="flex items-center justify-between">
                   <div
-                    className="w-12 h-12 rounded-liquid-sm flex items-center justify-center border border-white/10"
+                    className="w-12 h-12 rounded-liquid-sm flex items-center justify-center border border-black/5 shadow-xs"
                     style={{ backgroundColor: `${item.color}15`, color: item.color }}
                   >
                     <Icon className="w-6 h-6" />
                   </div>
-                  <span className="font-mono font-black text-2xl text-white/15">
+                  <span className="font-mono font-black text-2xl text-black/15">
                     {item.step}
                   </span>
                 </div>
-                <h3 className="font-serif font-bold text-lg text-white">{item.title}</h3>
-                <p className="text-sm text-festive-textSecondary leading-relaxed">{item.desc}</p>
+                <h3 className="font-serif font-black text-lg text-[#0F172A]">{item.title}</h3>
+                <p className="text-sm text-[#475569] leading-relaxed">{item.desc}</p>
               </GlassCard>
             );
           })}
@@ -264,10 +263,10 @@ export default function LandingPage() {
       {/* 4. BUSINESS CATEGORIES SHOWCASE */}
       <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8">
         <div className="text-center max-w-2xl mx-auto space-y-2">
-          <span className="text-xs font-semibold uppercase tracking-wider text-festive-gold">
+          <span className="text-xs font-bold uppercase tracking-wider text-amber-700">
             Tailored for Every Industry
           </span>
-          <h2 className="font-serif font-bold text-3xl text-white">
+          <h2 className="font-serif font-black text-3xl text-[#0F172A]">
             Diwali Marketing for Your Business
           </h2>
         </div>
@@ -282,16 +281,16 @@ export default function LandingPage() {
                 className="p-5 text-center flex flex-col items-center justify-center space-y-3 cursor-pointer group"
               >
                 <div
-                  className="w-12 h-12 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform"
-                  style={{ backgroundColor: `${cat.color}20`, color: cat.color }}
+                  className="w-12 h-12 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform shadow-xs"
+                  style={{ backgroundColor: `${cat.color}15`, color: cat.color }}
                 >
                   <Icon className="w-6 h-6" />
                 </div>
                 <div>
-                  <h4 className="font-medium text-xs text-white group-hover:text-festive-gold transition-colors">
+                  <h4 className="font-bold text-xs text-[#0F172A] group-hover:text-amber-700 transition-colors">
                     {cat.name}
                   </h4>
-                  <p className="text-[10px] text-festive-textSecondary mt-0.5">{cat.count}</p>
+                  <p className="text-[10px] text-[#64748B] mt-0.5 font-medium">{cat.count}</p>
                 </div>
               </GlassCard>
             );
@@ -301,28 +300,28 @@ export default function LandingPage() {
 
       {/* 5. CALL TO ACTION SECTION */}
       <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="relative rounded-liquid-lg border border-festive-gold/30 bg-gradient-to-r from-[#121626] via-[#1B1424] to-[#0C0F1D] p-8 sm:p-14 overflow-hidden text-center space-y-6 shadow-2xl">
-          <div className="absolute top-0 right-1/4 w-72 h-72 rounded-full ambient-glow-gold pointer-events-none blur-3xl opacity-50" />
+        <div className="relative rounded-liquid-lg border border-white/90 bg-gradient-to-r from-white/90 via-[#FFF8F0]/90 to-white/90 p-8 sm:p-14 overflow-hidden text-center space-y-6 shadow-glass-elevated">
+          <div className="absolute top-0 right-1/4 w-72 h-72 rounded-full ambient-glow-gold pointer-events-none blur-3xl opacity-60" />
 
-          <div className="inline-flex items-center gap-2 p-2 rounded-full bg-festive-gold/10 text-festive-gold text-xs font-semibold">
-            <Flame className="w-4 h-4 text-festive-gold animate-bounce" />
+          <div className="inline-flex items-center gap-2 p-2 rounded-full bg-amber-500/15 text-amber-800 text-xs font-bold">
+            <Flame className="w-4 h-4 text-amber-600 animate-bounce" />
             <span>Ready for the Festive Boom?</span>
           </div>
 
-          <h2 className="font-serif font-black text-3xl sm:text-4xl lg:text-5xl text-white max-w-3xl mx-auto leading-tight">
+          <h2 className="font-serif font-black text-3xl sm:text-4xl lg:text-5xl text-[#0F172A] max-w-3xl mx-auto leading-tight">
             Light Up Your Business Sales This Deepawali.
           </h2>
 
-          <p className="text-sm sm:text-base text-festive-textSecondary max-w-xl mx-auto">
+          <p className="text-sm sm:text-base text-[#475569] max-w-xl mx-auto">
             Join thousands of shop owners, creators, and brands creating viral festive promotions with Festive Ad Studio.
           </p>
 
           <div className="pt-2">
             <Link
               to="/editor"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-liquid text-base font-bold text-[#080A12] bg-gradient-to-r from-festive-gold to-festive-orange shadow-gold-glow-lg hover:scale-105 active:scale-95 transition-all duration-300"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-liquid text-base font-bold text-white bg-gradient-to-r from-amber-500 to-orange-500 shadow-gold-glow hover:scale-105 active:scale-95 transition-all duration-300"
             >
-              <Sparkles className="w-5 h-5 text-[#080A12]" />
+              <Sparkles className="w-5 h-5 text-white" />
               <span>Launch Design Studio Now</span>
             </Link>
           </div>
@@ -330,16 +329,16 @@ export default function LandingPage() {
       </section>
 
       {/* 6. FOOTER */}
-      <footer className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto pt-12 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-festive-textSecondary">
+      <footer className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto pt-10 border-t border-black/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#64748B]">
         <div className="flex items-center gap-2">
-          <Flame className="w-4 h-4 text-festive-gold" />
-          <span className="font-serif font-bold text-white">Festive Ad Studio</span>
-          <span>• © 2026 Festive Marketing Creative Suite. All rights reserved.</span>
+          <Flame className="w-4 h-4 text-amber-600" />
+          <span className="font-serif font-black text-[#0F172A]">Festive Ad Studio</span>
+          <span>• © 2026 Liquid Glass Diwali Creative Suite.</span>
         </div>
-        <div className="flex items-center gap-6">
-          <Link to="/templates" className="hover:text-white transition-colors">100+ Templates</Link>
-          <Link to="/editor" className="hover:text-white transition-colors">Canva Editor</Link>
-          <Link to="/my-designs" className="hover:text-white transition-colors">My Projects</Link>
+        <div className="flex items-center gap-6 font-medium">
+          <Link to="/templates" className="hover:text-[#0F172A] transition-colors">100+ Templates</Link>
+          <Link to="/editor" className="hover:text-[#0F172A] transition-colors">Canva Editor</Link>
+          <Link to="/my-designs" className="hover:text-[#0F172A] transition-colors">My Projects</Link>
         </div>
       </footer>
 

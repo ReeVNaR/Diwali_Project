@@ -10,8 +10,8 @@ export default function SearchBar({
 }) {
   return (
     <div className={`relative flex items-center w-full ${className}`}>
-      <div className="absolute left-4.5 text-festive-textSecondary pointer-events-none flex items-center">
-        <Search className="w-5 h-5 text-festive-gold/70" />
+      <div className="absolute left-4 text-amber-600 pointer-events-none flex items-center">
+        <Search className="w-5 h-5" />
       </div>
 
       <input
@@ -19,13 +19,13 @@ export default function SearchBar({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full pl-12 pr-12 py-3.5 rounded-liquid-sm bg-white/[0.05] border border-white/10 text-white placeholder-festive-textSecondary/60 text-sm focus:outline-none focus:border-festive-gold/50 focus:bg-white/[0.08] focus:ring-2 focus:ring-festive-gold/20 backdrop-blur-md transition-all duration-300"
+        className="w-full pl-11 pr-11 py-3.5 rounded-liquid bg-white/80 border border-white/90 text-[#0F172A] placeholder-[#94A3B8] text-sm font-medium focus:outline-none focus:border-amber-500/60 focus:bg-white focus:ring-4 focus:ring-amber-500/15 backdrop-blur-md shadow-glass transition-all duration-300"
       />
 
       {value && (
         <button
           onClick={onClear}
-          className="absolute right-4 p-1 rounded-full text-festive-textSecondary hover:text-white hover:bg-white/10 transition-colors"
+          className="absolute right-4 p-1 rounded-full text-[#64748B] hover:text-[#0F172A] hover:bg-black/5 transition-colors"
           title="Clear search"
         >
           <X className="w-4 h-4" />

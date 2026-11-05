@@ -73,21 +73,21 @@ export default function MyDesigns() {
       {/* Top Banner */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-festive-gold/15 text-festive-gold text-xs font-semibold mb-2">
-            <Flame className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/15 text-amber-800 text-xs font-bold mb-2 shadow-xs">
+            <Flame className="w-3.5 h-3.5 text-amber-600" />
             <span>Workspace Project Library</span>
           </div>
-          <h1 className="font-serif font-black text-3xl text-white">My Saved Designs</h1>
-          <p className="text-sm text-festive-textSecondary mt-1">
+          <h1 className="font-serif font-black text-3xl text-[#0F172A]">My Saved Designs</h1>
+          <p className="text-sm text-[#475569] mt-1">
             Reopen, edit, duplicate, and export all your custom Diwali creative campaigns.
           </p>
         </div>
 
         <Link
           to="/editor"
-          className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-liquid text-sm font-bold text-[#080A12] bg-gradient-to-r from-festive-gold to-festive-orange shadow-gold-glow hover:scale-105 active:scale-95 transition-all self-start sm:self-auto"
+          className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-liquid text-sm font-bold text-white bg-gradient-to-r from-amber-500 to-orange-500 shadow-gold-glow hover:scale-105 active:scale-95 transition-all self-start sm:self-auto"
         >
-          <Plus className="w-4 h-4 text-[#080A12]" />
+          <Plus className="w-4 h-4 text-white" />
           <span>New Creative</span>
         </Link>
       </div>
@@ -96,18 +96,18 @@ export default function MyDesigns() {
       {isLoading ? (
         <LoadingScreen message="Loading saved projects..." />
       ) : projects.length === 0 ? (
-        <div className="p-16 text-center space-y-4 rounded-liquid border border-white/10 bg-white/[0.02]">
-          <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 mx-auto flex items-center justify-center text-festive-gold">
+        <div className="p-16 text-center space-y-4 rounded-liquid border border-white/90 bg-white/75 backdrop-blur-glass shadow-glass">
+          <div className="w-16 h-16 rounded-full bg-amber-500/15 border border-amber-500/30 mx-auto flex items-center justify-center text-amber-600 shadow-sm">
             <FolderHeart className="w-8 h-8" />
           </div>
-          <h3 className="font-serif text-lg font-bold text-white">No saved projects yet</h3>
-          <p className="text-xs text-festive-textSecondary max-w-sm mx-auto">
+          <h3 className="font-serif font-black text-lg text-[#0F172A]">No saved projects yet</h3>
+          <p className="text-xs text-[#64748B] max-w-sm mx-auto">
             Create your first Diwali advertisement creative from 100+ templates or build one from scratch in the studio.
           </p>
           <div className="pt-2">
             <Link
               to="/templates"
-              className="inline-flex items-center gap-2 text-xs font-bold text-[#080A12] bg-festive-gold px-5 py-2.5 rounded-liquid shadow-gold-glow"
+              className="inline-flex items-center gap-2 text-xs font-bold text-white bg-gradient-to-r from-amber-500 to-orange-500 px-5 py-2.5 rounded-liquid shadow-gold-glow"
             >
               <span>Explore Templates</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -115,7 +115,7 @@ export default function MyDesigns() {
           </div>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 items-start">
           {projects.map((project) => (
             <GlassCard
               key={project.id}
@@ -123,7 +123,7 @@ export default function MyDesigns() {
               className="overflow-hidden flex flex-col justify-between group cursor-pointer"
             >
               {/* Preview container */}
-              <div className="relative aspect-square w-full bg-[#080d1e] border-b border-white/10 flex items-center justify-center overflow-hidden">
+              <div className="relative aspect-square w-full bg-[#080d1e] border-b border-black/5 flex items-center justify-center overflow-hidden rounded-t-liquid">
                 {project.previewThumbnail ? (
                   <img
                     src={project.previewThumbnail}
@@ -132,45 +132,45 @@ export default function MyDesigns() {
                   />
                 ) : (
                   <div className="text-center p-4">
-                    <Palette className="w-10 h-10 text-festive-gold mx-auto mb-2 opacity-70 group-hover:scale-110 transition-transform" />
+                    <Palette className="w-10 h-10 text-amber-400 mx-auto mb-2 opacity-80 group-hover:scale-110 transition-transform" />
                     <p className="text-xs font-serif font-bold text-white line-clamp-1">{project.name}</p>
                   </div>
                 )}
 
                 {/* Format Tag */}
-                <span className="absolute top-2 left-2 text-[10px] font-mono px-2 py-0.5 rounded bg-black/60 text-white/90 border border-white/10 backdrop-blur-sm">
+                <span className="absolute top-2 left-2 text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-black/70 text-white/95 border border-white/20 backdrop-blur-sm">
                   {project.format || '1080×1080'}
                 </span>
               </div>
 
               {/* Project Card Footer */}
-              <div className="p-4 space-y-3">
+              <div className="p-4 space-y-3 bg-white/70">
                 <div>
-                  <h3 className="font-serif font-bold text-sm text-white group-hover:text-festive-gold transition-colors truncate">
+                  <h3 className="font-serif font-bold text-sm text-[#0F172A] group-hover:text-amber-700 transition-colors truncate">
                     {project.name}
                   </h3>
-                  <p className="text-[11px] text-festive-textSecondary flex items-center gap-1 mt-0.5">
+                  <p className="text-[11px] text-[#64748B] flex items-center gap-1 mt-0.5">
                     <Clock className="w-3 h-3" />
                     Edited {new Date(project.updatedAt || project.createdAt).toLocaleDateString()}
                   </p>
                 </div>
 
-                <div className="pt-2 border-t border-white/10 flex items-center justify-between">
-                  <span className="text-xs font-semibold text-festive-gold flex items-center gap-1 group-hover:underline">
+                <div className="pt-2 border-t border-black/5 flex items-center justify-between">
+                  <span className="text-xs font-bold text-amber-700 flex items-center gap-1 group-hover:underline">
                     Edit in Studio <ExternalLink className="w-3 h-3" />
                   </span>
 
                   <div className="flex items-center gap-1">
                     <button
                       onClick={(e) => handleDuplicate(project, e)}
-                      className="p-1.5 rounded-liquid-sm text-festive-textSecondary hover:text-white hover:bg-white/10 transition-colors"
+                      className="p-1.5 rounded-liquid-sm text-[#64748B] hover:text-[#0F172A] hover:bg-black/5 transition-colors"
                       title="Duplicate Project"
                     >
                       <Copy className="w-3.5 h-3.5" />
                     </button>
                     <button
                       onClick={(e) => handleDelete(project.id, e)}
-                      className="p-1.5 rounded-liquid-sm text-festive-textSecondary hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                      className="p-1.5 rounded-liquid-sm text-[#64748B] hover:text-red-600 hover:bg-red-500/10 transition-colors"
                       title="Delete Project"
                     >
                       <Trash2 className="w-3.5 h-3.5" />

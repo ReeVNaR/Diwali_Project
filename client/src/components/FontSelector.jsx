@@ -16,13 +16,13 @@ export default function FontSelector({
   onChange
 }) {
   return (
-    <div className="space-y-2">
-      <label className="text-xs font-semibold text-festive-textSecondary uppercase tracking-wider flex items-center gap-1.5">
-        <Type className="w-3.5 h-3.5 text-festive-gold" />
+    <div className="space-y-1.5">
+      <label className="text-[11px] font-bold text-[#64748B] uppercase tracking-wider flex items-center gap-1.5">
+        <Type className="w-3.5 h-3.5 text-amber-600" />
         Font Family
       </label>
 
-      <div className="grid grid-cols-1 gap-1 max-h-48 overflow-y-auto pr-1">
+      <div className="grid grid-cols-1 gap-1 max-h-44 overflow-y-auto pr-1">
         {FONTS.map((f) => {
           const isSelected = value?.toLowerCase() === f.name.toLowerCase();
           return (
@@ -30,18 +30,18 @@ export default function FontSelector({
               key={f.name}
               onClick={() => onChange(f.name)}
               className={`
-                w-full px-3 py-2 rounded-liquid-sm text-left flex items-center justify-between transition-all duration-150
+                w-full px-3 py-2 rounded-liquid-sm text-left flex items-center justify-between transition-all duration-150 shadow-xs
                 ${isSelected
-                  ? 'bg-festive-gold/20 border border-festive-gold/40 text-festive-gold'
-                  : 'bg-white/[0.03] border border-white/5 text-white/80 hover:bg-white/[0.07] hover:text-white'
+                  ? 'bg-amber-500/20 border border-amber-500/50 text-amber-900 font-bold'
+                  : 'bg-white/80 border border-black/5 text-[#334155] hover:bg-white hover:text-[#0F172A]'
                 }
               `}
             >
               <div>
-                <p className="text-sm" style={f.style}>{f.name}</p>
-                <p className="text-[10px] text-festive-textSecondary">{f.category}</p>
+                <p className="text-xs" style={f.style}>{f.name}</p>
+                <p className="text-[10px] text-[#64748B]">{f.category}</p>
               </div>
-              <span className="text-xs text-white/50" style={f.style}>Aa</span>
+              <span className="text-xs text-[#94A3B8]" style={f.style}>Aa</span>
             </button>
           );
         })}

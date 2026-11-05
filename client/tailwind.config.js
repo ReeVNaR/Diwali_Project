@@ -4,25 +4,24 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
-  darkMode: 'class',
   theme: {
     extend: {
       colors: {
         festive: {
-          bg: "#080A12",
-          surface: "#111522",
-          card: "rgba(255, 255, 255, 0.05)",
-          glass: "rgba(255, 255, 255, 0.07)",
-          glassBorder: "rgba(255, 255, 255, 0.14)",
-          gold: "#F5B942",
+          bg: "#FAF7F2",
+          surface: "rgba(255, 255, 255, 0.75)",
+          card: "rgba(255, 255, 255, 0.65)",
+          glass: "rgba(255, 255, 255, 0.7)",
+          glassBorder: "rgba(255, 255, 255, 0.85)",
+          gold: "#D97706",
           goldLight: "#FDE68A",
-          goldDark: "#D97706",
-          orange: "#FF7043",
+          goldDark: "#92400E",
+          orange: "#EA580C",
           crimson: "#E11D48",
           amber: "#F59E0B",
-          textPrimary: "#FFFFFF",
-          textSecondary: "#A1A1AA",
-          textMuted: "#71717A"
+          textPrimary: "#0F172A",
+          textSecondary: "#475569",
+          textMuted: "#94A3B8"
         }
       },
       fontFamily: {
@@ -35,32 +34,27 @@ export default {
       borderRadius: {
         'liquid': '22px',
         'liquid-lg': '28px',
-        'liquid-sm': '16px'
+        'liquid-sm': '14px'
       },
       boxShadow: {
-        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
-        'glass-hover': '0 12px 40px 0 rgba(245, 185, 66, 0.15), 0 8px 32px 0 rgba(0, 0, 0, 0.45)',
-        'gold-glow': '0 0 25px rgba(245, 185, 66, 0.35)',
-        'gold-glow-lg': '0 0 50px rgba(245, 185, 66, 0.45)',
-        'card-glow': '0 0 30px rgba(255, 112, 67, 0.2)'
+        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.08), inset 0 1px 1px 0 rgba(255, 255, 255, 0.95)',
+        'glass-hover': '0 14px 40px 0 rgba(217, 119, 6, 0.15), 0 8px 25px 0 rgba(0, 0, 0, 0.06), inset 0 1px 2px 0 rgba(255, 255, 255, 1)',
+        'glass-elevated': '0 16px 45px 0 rgba(148, 163, 184, 0.18), inset 0 1px 2px 0 rgba(255, 255, 255, 1)',
+        'gold-glow': '0 4px 20px rgba(245, 158, 11, 0.35)',
+        'gold-glow-lg': '0 8px 30px rgba(245, 158, 11, 0.45)'
       },
       backdropBlur: {
-        'glass': '16px',
-        'glass-heavy': '24px'
+        'glass': '20px',
+        'glass-heavy': '28px'
       },
       animation: {
         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'float': 'float 6s ease-in-out infinite',
-        'glow': 'glow 3s ease-in-out infinite alternate',
       },
       keyframes: {
         float: {
           '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-10px)' },
-        },
-        glow: {
-          '0%': { opacity: '0.6', filter: 'drop-shadow(0 0 15px rgba(245,185,66,0.4))' },
-          '100%': { opacity: '1', filter: 'drop-shadow(0 0 30px rgba(245,185,66,0.8))' }
+          '50%': { transform: 'translateY(-8px)' },
         }
       }
     },

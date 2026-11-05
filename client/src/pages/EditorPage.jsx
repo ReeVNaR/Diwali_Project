@@ -1,17 +1,16 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import {
   Undo2,
   Redo2,
   Save,
   Download,
   Eye,
-  Layers,
   Sparkles,
   Sliders,
   Check,
   Loader2,
-  ChevronDown
+  ChevronLeft
 } from 'lucide-react';
 import Sidebar from '../components/Sidebar.jsx';
 import CanvasEditor from '../components/CanvasEditor.jsx';
@@ -27,7 +26,6 @@ import { canvasUtils } from '../utils/canvasUtils.js';
 
 export default function EditorPage() {
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
 
   const {
     canvas,
@@ -155,30 +153,41 @@ export default function EditorPage() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-80px)] w-full overflow-hidden bg-[#080A12]">
+    <div className="flex flex-col h-screen w-full overflow-hidden bg-gradient-to-br from-[#FDFBF7] via-[#FFF8F0] to-[#F1F5F9]">
       
-      {/* 1. TOP TOOLBAR */}
-      <div className="h-14 border-b border-white/10 bg-[#0F1424]/90 backdrop-blur-md px-4 flex items-center justify-between gap-4 z-20 shrink-0">
+      {/* 1. LIQUID GLASS TOP TOOLBAR */}
+      <div className="h-14 border-b border-white/80 bg-white/70 backdrop-blur-glass shadow-glass px-4 flex items-center justify-between gap-4 z-20 shrink-0">
         
-        {/* Left: Project Title & Format Selector */}
+        {/* Left: Home Return, Title & Format Selector */}
         <div className="flex items-center gap-3">
+          <Link
+            to="/templates"
+            className="p-1.5 rounded-liquid-sm text-[#475569] hover:text-[#0F172A] hover:bg-black/5 transition-colors flex items-center gap-1 text-xs font-semibold"
+            title="Return to Templates Gallery"
+          >
+            <ChevronLeft className="w-4 h-4" />
+            <span className="hidden sm:inline">Templates</span>
+          </Link>
+
+          <div className="h-4 w-[1px] bg-black/10 mx-1" />
+
           <input
             type="text"
             value={projectName}
             onChange={(e) => setProjectName(e.target.value)}
-            className="font-medium text-xs sm:text-sm text-white bg-transparent hover:bg-white/[0.05] focus:bg-white/10 px-2 py-1 rounded border border-transparent focus:border-white/20 focus:outline-none transition-colors max-w-[200px] sm:max-w-[280px] truncate"
-            title="Click to rename project"
+            className="font-bold text-xs sm:text-sm text-[#0F172A] bg-transparent hover:bg-black/[0.04] focus:bg-white px-2 py-1 rounded-liquid-sm border border-transparent focus:border-amber-500/40 focus:outline-none transition-colors max-w-[180px] sm:max-w-[260px] truncate"
+            title="Click to rename creative"
           />
 
-          <div className="hidden md:flex items-center gap-2 pl-2 border-l border-white/10">
-            <span className="text-xs text-festive-textSecondary">Format:</span>
+          <div className="hidden md:flex items-center gap-2 pl-2 border-l border-black/10">
+            <span className="text-xs text-[#64748B] font-medium">Format:</span>
             <select
               value={canvasFormat}
               onChange={(e) => handleFormatChange(e.target.value)}
-              className="text-xs bg-white/[0.05] border border-white/10 text-white rounded-liquid-sm px-2.5 py-1 focus:outline-none focus:border-festive-gold/40 cursor-pointer"
+              className="text-xs bg-white/80 border border-white/90 text-[#0F172A] rounded-liquid-sm px-2.5 py-1 focus:outline-none focus:border-amber-500/50 cursor-pointer shadow-sm font-semibold"
             >
               {formatOptions.map((f) => (
-                <option key={f.name} value={f.name} className="bg-[#111522] text-white">
+                <option key={f.name} value={f.name} className="bg-white text-[#0F172A]">
                   {f.name} ({f.width}×{f.height})
                 </option>
               ))}
@@ -187,14 +196,14 @@ export default function EditorPage() {
         </div>
 
         {/* Center: Undo / Redo */}
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1 bg-white/60 p-1 rounded-liquid-sm border border-white/80 shadow-sm">
           <button
             onClick={undo}
             disabled={historyIndex <= 0}
-            className={`p-2 rounded-liquid-sm transition-colors ${
+            className={`p-1.5 rounded-liquid-sm transition-colors ${
               historyIndex > 0
-                ? 'text-white hover:bg-white/10'
-                : 'text-white/20 cursor-not-allowed'
+                ? 'text-[#0F172A] hover:bg-black/5'
+                : 'text-black/20 cursor-not-allowed'
             }`}
             title="Undo (Ctrl+Z)"
           >
@@ -204,10 +213,10 @@ export default function EditorPage() {
           <button
             onClick={redo}
             disabled={historyIndex >= history.length - 1}
-            className={`p-2 rounded-liquid-sm transition-colors ${
+            className={`p-1.5 rounded-liquid-sm transition-colors ${
               historyIndex < history.length - 1
-                ? 'text-white hover:bg-white/10'
-                : 'text-white/20 cursor-not-allowed'
+                ? 'text-[#0F172A] hover:bg-black/5'
+                : 'text-black/20 cursor-not-allowed'
             }`}
             title="Redo (Ctrl+Shift+Z)"
           >
@@ -219,60 +228,60 @@ export default function EditorPage() {
         <div className="flex items-center gap-2 sm:gap-3">
           <button
             onClick={() => setIsPreviewOpen(true)}
-            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-liquid-sm text-xs font-medium text-white bg-white/[0.05] border border-white/10 hover:bg-white/10 transition-colors"
+            className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 rounded-liquid-sm text-xs font-semibold text-[#0F172A] bg-white/80 border border-white/90 hover:bg-white shadow-sm transition-colors"
             title="Preview on Instagram / WhatsApp"
           >
-            <Eye className="w-3.5 h-3.5 text-festive-gold" />
+            <Eye className="w-3.5 h-3.5 text-amber-600" />
             <span>Preview</span>
           </button>
 
           <button
             onClick={handleSaveProject}
             disabled={saveStatus === 'saving'}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-liquid-sm text-xs font-semibold text-white bg-white/10 border border-white/15 hover:bg-white/20 transition-all"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-liquid-sm text-xs font-bold text-[#0F172A] bg-white/90 border border-white hover:bg-white shadow-sm transition-all"
             title="Save Project (Ctrl+S)"
           >
             {saveStatus === 'saving' ? (
-              <Loader2 className="w-3.5 h-3.5 animate-spin text-festive-gold" />
+              <Loader2 className="w-3.5 h-3.5 animate-spin text-amber-600" />
             ) : saveStatus === 'saved' ? (
-              <Check className="w-3.5 h-3.5 text-emerald-400" />
+              <Check className="w-3.5 h-3.5 text-emerald-600" />
             ) : (
-              <Save className="w-3.5 h-3.5 text-festive-gold" />
+              <Save className="w-3.5 h-3.5 text-amber-600" />
             )}
             <span>{saveStatus === 'saved' ? 'Saved' : 'Save'}</span>
           </button>
 
           <button
             onClick={() => setIsExportOpen(true)}
-            className="flex items-center gap-1.5 px-4 py-1.5 rounded-liquid-sm text-xs font-bold text-[#080A12] bg-gradient-to-r from-festive-gold to-festive-orange shadow-gold-glow hover:scale-105 active:scale-95 transition-all"
+            className="flex items-center gap-1.5 px-4 py-1.5 rounded-liquid-sm text-xs font-bold text-white bg-gradient-to-r from-amber-500 via-amber-600 to-orange-500 shadow-gold-glow hover:scale-105 active:scale-95 transition-all"
             title="Download PNG / JPEG (Ctrl+E)"
           >
-            <Download className="w-3.5 h-3.5 text-[#080A12]" />
+            <Download className="w-3.5 h-3.5" />
             <span>Export</span>
           </button>
         </div>
       </div>
 
-      {/* 2. MAIN WORKSPACE (LEFT SIDEBAR, CANVAS, RIGHT INSPECTOR) */}
+      {/* 2. MAIN WORKSPACE (LEFT SIDEBAR, FITTED CANVAS, RIGHT INSPECTOR) */}
       <div className="flex-1 flex overflow-hidden">
         
         {/* Left Sidebar */}
         <Sidebar onSelectTemplate={handleSelectTemplate} />
 
-        {/* Center Fabric Canvas */}
+        {/* Center Fabric Canvas (Calculated to 100% fit without overflow) */}
         <CanvasEditor />
 
-        {/* Right Inspector Sidebar */}
-        <div className="w-72 sm:w-80 h-full border-l border-white/10 bg-[#0D111F]/90 backdrop-blur-md p-4 overflow-y-auto space-y-4 shrink-0">
-          <div className="flex items-center justify-between pb-2 border-b border-white/10">
+        {/* Right Inspector Sidebar (Frosted Liquid Glass) */}
+        <div className="w-72 sm:w-80 h-full border-l border-white/80 bg-white/70 backdrop-blur-glass p-4 overflow-y-auto space-y-4 shrink-0 shadow-sm">
+          <div className="flex items-center justify-between pb-2 border-b border-black/5">
             <div className="flex items-center gap-2">
-              <Sliders className="w-4 h-4 text-festive-gold" />
-              <h3 className="font-serif font-bold text-xs uppercase tracking-wider text-white">
+              <Sliders className="w-4 h-4 text-amber-600" />
+              <h3 className="font-serif font-black text-xs uppercase tracking-wider text-[#0F172A]">
                 Properties
               </h3>
             </div>
             {selectedObject && (
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-festive-gold/15 text-festive-gold border border-festive-gold/30">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-800 font-bold border border-amber-500/30">
                 {selectedObject.type}
               </span>
             )}
@@ -285,32 +294,32 @@ export default function EditorPage() {
               <ImageEditor />
             )
           ) : (
-            <div className="space-y-4 text-center py-8">
-              <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 mx-auto flex items-center justify-center text-festive-textSecondary">
-                <Sparkles className="w-6 h-6 text-festive-gold/40" />
+            <div className="space-y-4 text-center py-10">
+              <div className="w-12 h-12 rounded-full bg-amber-500/10 border border-amber-500/20 mx-auto flex items-center justify-center text-amber-600 shadow-sm">
+                <Sparkles className="w-6 h-6" />
               </div>
               <div className="space-y-1">
-                <p className="text-xs font-semibold text-white">No element selected</p>
-                <p className="text-[11px] text-festive-textSecondary max-w-[200px] mx-auto">
-                  Click on any text, shape, or image on the canvas to edit its properties.
+                <p className="text-xs font-bold text-[#0F172A]">No element selected</p>
+                <p className="text-[11px] text-[#64748B] max-w-[200px] mx-auto leading-relaxed">
+                  Click on any text, shape, or photo on the canvas to inspect and customize it.
                 </p>
               </div>
 
-              <div className="pt-4 border-t border-white/10 text-left space-y-2 text-xs">
-                <p className="font-semibold text-festive-gold uppercase tracking-wider text-[10px]">
-                  Canvas Details
+              <div className="pt-4 border-t border-black/5 text-left space-y-2 text-xs">
+                <p className="font-bold text-amber-700 uppercase tracking-wider text-[10px]">
+                  Canvas Specifications
                 </p>
-                <div className="flex justify-between text-festive-textSecondary">
+                <div className="flex justify-between text-[#64748B]">
                   <span>Format</span>
-                  <span className="text-white">{canvasFormat}</span>
+                  <span className="text-[#0F172A] font-semibold">{canvasFormat}</span>
                 </div>
-                <div className="flex justify-between text-festive-textSecondary">
-                  <span>Dimensions</span>
-                  <span className="font-mono text-white">{canvasWidth} × {canvasHeight} px</span>
+                <div className="flex justify-between text-[#64748B]">
+                  <span>Native Size</span>
+                  <span className="font-mono text-[#0F172A] font-bold">{canvasWidth} × {canvasHeight} px</span>
                 </div>
-                <div className="flex justify-between text-festive-textSecondary">
+                <div className="flex justify-between text-[#64748B]">
                   <span>Layers</span>
-                  <span className="font-mono text-white">{canvas?.getObjects().length || 0}</span>
+                  <span className="font-mono text-[#0F172A] font-bold">{canvas?.getObjects().length || 0}</span>
                 </div>
               </div>
             </div>

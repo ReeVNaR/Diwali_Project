@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Sparkles, LayoutGrid, Filter, Flame } from 'lucide-react';
+import { LayoutGrid, Flame } from 'lucide-react';
 import SearchBar from '../components/SearchBar.jsx';
 import CategoryFilter from '../components/CategoryFilter.jsx';
 import TemplateCard from '../components/TemplateCard.jsx';
@@ -26,7 +26,6 @@ export default function TemplateGallery() {
     setActivePreview
   } = useTemplates();
 
-  // Sync category from URL param if present on load
   useEffect(() => {
     const catParam = searchParams.get('category');
     if (catParam && catParam !== selectedCategory) {
@@ -34,9 +33,7 @@ export default function TemplateGallery() {
     }
   }, [searchParams]);
 
-  // Page limit for fluid browsing
   const [displayCount, setDisplayCount] = useState(24);
-
   const visibleTemplates = templates.slice(0, displayCount);
 
   return (
@@ -44,20 +41,20 @@ export default function TemplateGallery() {
       
       {/* Header Banner */}
       <div className="space-y-3">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-festive-gold/15 text-festive-gold text-xs font-semibold">
-          <Flame className="w-3.5 h-3.5" />
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/15 text-amber-800 text-xs font-bold shadow-xs">
+          <Flame className="w-3.5 h-3.5 text-amber-600" />
           <span>Professional Diwali Templates ({templates.length} Ready Designs)</span>
         </div>
-        <h1 className="font-serif font-black text-3xl sm:text-4xl text-white">
+        <h1 className="font-serif font-black text-3xl sm:text-4xl text-[#0F172A]">
           Diwali Creative Template Library
         </h1>
-        <p className="text-sm text-festive-textSecondary max-w-2xl">
-          Browse through our curated collection of 100+ Diwali advertisements tailored for clothing, jewellery, sweets, electronics, restaurants, real estate and more.
+        <p className="text-sm text-[#475569] max-w-2xl leading-relaxed">
+          Browse through our curated collection of 100+ Diwali advertisements tailored for clothing, jewellery, sweets, electronics, restaurants, real estate, and more.
         </p>
       </div>
 
-      {/* Filter and Search Bar Section */}
-      <div className="rounded-liquid-lg border border-white/10 bg-[#0F1322]/80 backdrop-blur-md p-6 space-y-5 shadow-glass">
+      {/* Filter and Search Bar Section (Liquid Glass) */}
+      <div className="rounded-liquid-lg border border-white/90 bg-white/75 backdrop-blur-glass p-6 space-y-5 shadow-glass-elevated">
         <SearchBar
           value={searchQuery}
           onChange={setSearchQuery}
@@ -82,10 +79,10 @@ export default function TemplateGallery() {
       {isLoading ? (
         <LoadingScreen message="Filtering Diwali templates..." />
       ) : templates.length === 0 ? (
-        <div className="p-16 text-center space-y-3 rounded-liquid border border-white/10 bg-white/[0.02]">
-          <LayoutGrid className="w-10 h-10 text-festive-gold/50 mx-auto" />
-          <h3 className="font-serif text-lg font-bold text-white">No matching templates found</h3>
-          <p className="text-xs text-festive-textSecondary max-w-sm mx-auto">
+        <div className="p-16 text-center space-y-3 rounded-liquid border border-white/90 bg-white/75 backdrop-blur-glass shadow-glass">
+          <LayoutGrid className="w-10 h-10 text-amber-500 mx-auto" />
+          <h3 className="font-serif text-lg font-black text-[#0F172A]">No matching templates found</h3>
+          <p className="text-xs text-[#64748B] max-w-sm mx-auto">
             Try adjusting your search keywords or switching category filters.
           </p>
           <button
@@ -94,17 +91,17 @@ export default function TemplateGallery() {
               setFormat('All');
               setSearchQuery('');
             }}
-            className="text-xs font-semibold text-festive-gold hover:underline pt-2"
+            className="text-xs font-bold text-amber-700 hover:underline pt-2"
           >
             Reset All Filters
           </button>
         </div>
       ) : (
         <div className="space-y-8">
-          <div className="flex items-center justify-between text-xs text-festive-textSecondary px-1">
+          <div className="flex items-center justify-between text-xs text-[#64748B] px-1 font-semibold">
             <span>Showing {visibleTemplates.length} of {templates.length} templates</span>
             {selectedCategory !== 'All' && (
-              <span className="text-festive-gold font-medium">Category: {selectedCategory}</span>
+              <span className="text-amber-700 font-bold">Category: {selectedCategory}</span>
             )}
           </div>
 
@@ -118,12 +115,12 @@ export default function TemplateGallery() {
             ))}
           </div>
 
-          {/* Load More Button if more templates exist */}
+          {/* Load More Button */}
           {displayCount < templates.length && (
             <div className="text-center pt-4">
               <button
                 onClick={() => setDisplayCount((prev) => prev + 24)}
-                className="px-6 py-3 rounded-liquid text-xs font-bold text-white bg-white/10 border border-white/20 hover:bg-white/20 hover:border-festive-gold/40 transition-all shadow-glass"
+                className="px-6 py-3 rounded-liquid text-xs font-bold text-[#0F172A] bg-white/80 border border-white/90 hover:bg-white hover:border-amber-500/50 transition-all shadow-glass"
               >
                 Load More Templates ({templates.length - displayCount} remaining)
               </button>

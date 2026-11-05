@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Upload, Image as ImageIcon, CheckCircle, AlertCircle, Loader2, Trash2 } from 'lucide-react';
+import { Upload, AlertCircle, Loader2 } from 'lucide-react';
 import { uploadService } from '../services/uploadService.js';
 import { useEditorStore } from '../store/editorStore.js';
 import { canvasUtils } from '../utils/canvasUtils.js';
@@ -24,13 +24,11 @@ export default function UploadZone({ type = 'product', onInsertImage }) {
   const handleFileChange = async (file) => {
     if (!file) return;
 
-    // Check size limit (10MB)
     if (file.size > 10 * 1024 * 1024) {
       setError('File size exceeds 10MB limit.');
       return;
     }
 
-    // Check extension
     const validTypes = ['image/png', 'image/jpeg', 'image/webp'];
     if (!validTypes.includes(file.type)) {
       setError('Please upload a PNG, JPG, or WebP image.');
@@ -50,7 +48,6 @@ export default function UploadZone({ type = 'product', onInsertImage }) {
         addUploadedProduct(result.data.url);
       }
 
-      // Automatically place on canvas or notify
       if (canvas) {
         canvasUtils.addImage(canvas, result.data.url);
         pushHistory();
@@ -82,7 +79,7 @@ export default function UploadZone({ type = 'product', onInsertImage }) {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       {/* Upload Drag & Drop Area */}
       <div
         onDrop={handleDrop}
@@ -90,10 +87,10 @@ export default function UploadZone({ type = 'product', onInsertImage }) {
         onDragLeave={handleDragLeave}
         onClick={() => fileInputRef.current?.click()}
         className={`
-          relative border-2 border-dashed rounded-liquid-sm p-6 text-center cursor-pointer transition-all duration-200
+          relative border-2 border-dashed rounded-liquid-sm p-5 text-center cursor-pointer transition-all duration-200
           ${isDragging
-            ? 'border-festive-gold bg-festive-gold/10'
-            : 'border-white/15 bg-white/[0.03] hover:border-festive-gold/50 hover:bg-white/[0.06]'
+            ? 'border-amber-500 bg-amber-500/10'
+            : 'border-black/15 bg-white/70 hover:border-amber-500/60 hover:bg-white/90 shadow-sm'
           }
         `}
       >
@@ -108,19 +105,19 @@ export default function UploadZone({ type = 'product', onInsertImage }) {
         <div className="flex flex-col items-center justify-center gap-2">
           {isUploading ? (
             <div className="flex flex-col items-center gap-2 py-2">
-              <Loader2 className="w-8 h-8 text-festive-gold animate-spin" />
-              <p className="text-xs text-festive-gold font-medium">Uploading & optimizing...</p>
+              <Loader2 className="w-7 h-7 text-amber-600 animate-spin" />
+              <p className="text-xs text-amber-700 font-bold">Uploading & optimizing...</p>
             </div>
           ) : (
             <>
-              <div className="p-3 rounded-full bg-festive-gold/10 text-festive-gold border border-festive-gold/20">
-                <Upload className="w-5 h-5" />
+              <div className="p-2.5 rounded-full bg-amber-500/15 text-amber-700 border border-amber-500/30 shadow-xs">
+                <Upload className="w-4 h-4" />
               </div>
               <div>
-                <p className="text-xs font-semibold text-white">
+                <p className="text-xs font-bold text-[#0F172A]">
                   Click or drag {type === 'logo' ? 'brand logo' : 'product photo'}
                 </p>
-                <p className="text-[11px] text-festive-textSecondary mt-0.5">
+                <p className="text-[11px] text-[#64748B] mt-0.5">
                   PNG, JPG, or WebP up to 10MB
                 </p>
               </div>
@@ -131,7 +128,7 @@ export default function UploadZone({ type = 'product', onInsertImage }) {
 
       {/* Error message */}
       {error && (
-        <div className="p-3 rounded-liquid-sm bg-red-500/10 border border-red-500/30 text-red-400 text-xs flex items-center gap-2">
+        <div className="p-2.5 rounded-liquid-sm bg-red-500/10 border border-red-500/20 text-red-600 text-xs flex items-center gap-2">
           <AlertCircle className="w-4 h-4 shrink-0" />
           <span>{error}</span>
         </div>
@@ -139,8 +136,8 @@ export default function UploadZone({ type = 'product', onInsertImage }) {
 
       {/* Uploaded Assets List */}
       {assetList.length > 0 && (
-        <div className="space-y-2 pt-2">
-          <h4 className="text-xs font-semibold uppercase tracking-wider text-festive-textSecondary">
+        <div className="space-y-2 pt-1">
+          <h4 className="text-[11px] font-bold uppercase tracking-wider text-[#64748B]">
             Uploaded {type === 'logo' ? 'Logos' : 'Products'} ({assetList.length})
           </h4>
           <div className="grid grid-cols-2 gap-2">
@@ -154,7 +151,7 @@ export default function UploadZone({ type = 'product', onInsertImage }) {
                   }
                   if (onInsertImage) onInsertImage(url);
                 }}
-                className="group relative aspect-square rounded-liquid-sm border border-white/10 bg-white/[0.04] p-2 flex items-center justify-center cursor-pointer hover:border-festive-gold/50 transition-all overflow-hidden"
+                className="group relative aspect-square rounded-liquid-sm border border-black/10 bg-white/80 p-2 flex items-center justify-center cursor-pointer hover:border-amber-500 hover:shadow-md transition-all overflow-hidden"
                 title="Click to insert on canvas"
               >
                 <img
@@ -162,8 +159,8 @@ export default function UploadZone({ type = 'product', onInsertImage }) {
                   alt={`Uploaded ${type}`}
                   className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform"
                 />
-                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                  <span className="text-[10px] font-semibold text-festive-gold px-2 py-1 rounded bg-black/70">
+                <div className="absolute inset-0 bg-amber-500/30 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity backdrop-blur-xs">
+                  <span className="text-[10px] font-bold text-[#0F172A] px-2 py-0.5 rounded-full bg-white shadow-sm">
                     + Insert
                   </span>
                 </div>
